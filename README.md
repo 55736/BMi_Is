@@ -8,362 +8,143 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
   :root {
-    --sky: #38bdf8;
-    --violet: #8b5cf6;
-    --mint: #10b981;
-    --rose: #f43f5e;
-    --ink: #1e293b;
-    --muted: #64748b;
-    --surface: #ffffff;
-    --canvas: #f8fafc;
-    --line: #e2e8f0;
+    --c-sky: #0284c7;
+    --c-violet: #7c3aed;
+    --c-mint: #059669;
+    --c-rose: #e11d48;
+    --c-orange: #ea580c;
+    --c-ink: #0f172a;
+    --c-muted: #64748b;
+    --c-surface: #ffffff;
+    --c-bg: #f8fafc;
+    --c-line: #cbd5e1;
   }
 
-  * {
-    box-sizing: border-box;
-    font-family: 'IBM Plex Sans Thai', sans-serif;
-  }
+  * { box-sizing: border-box; font-family: 'IBM Plex Sans Thai', sans-serif; }
 
   body {
-    margin: 0;
-    padding: 24px 16px;
-    background: linear-gradient(145deg, #f0f9ff 0%, #f5f3ff 50%, #fff1f2 100%);
-    color: var(--ink);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    margin: 0; padding: 24px 16px;
+    background-color: var(--c-bg); color: var(--c-ink);
+    min-height: 100vh; display: flex; justify-content: center; align-items: flex-start;
   }
 
   .app {
-    width: 100%;
-    max-width: 680px;
-    background: var(--surface);
-    border-radius: 20px;
-    padding: 28px;
-    box-shadow: 0 12px 32px rgba(139, 92, 246, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    width: 100%; max-width: 680px; background: var(--c-surface);
+    border-radius: 16px; padding: 28px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--c-line);
   }
 
   .topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 16px;
-    margin-bottom: 24px;
-    border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 16px; margin-bottom: 24px; border-bottom: 2px solid var(--c-bg);
   }
 
-  .brand {
-    font-size: 20px;
-    font-weight: 700;
-    background: linear-gradient(90deg, var(--sky), var(--violet), var(--rose));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: -0.5px;
-  }
+  .brand { font-size: 22px; font-weight: 700; color: var(--c-violet); letter-spacing: -0.5px; }
 
   .user-pill {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: #f5f3ff;
-    padding: 6px 12px;
-    border-radius: 99px;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--violet);
+    display: flex; align-items: center; gap: 10px; background: #f1f5f9;
+    padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--c-violet);
   }
 
   .btn-out {
-    background: var(--rose);
-    color: #fff;
-    border: none;
-    padding: 4px 10px;
-    border-radius: 99px;
-    font-size: 12px;
-    cursor: pointer;
-    width: auto;
-    margin: 0;
+    background: var(--c-rose); color: #fff; border: none; padding: 4px 10px;
+    border-radius: 20px; font-size: 12px; cursor: pointer; width: auto; margin: 0;
   }
 
-  h2 {
-    margin: 0 0 8px 0;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--ink);
+  h2 { margin: 0 0 8px 0; font-size: 20px; font-weight: 700; color: var(--c-ink); }
+  .sub { margin: 0 0 20px 0; font-size: 14px; color: var(--c-muted); }
+
+  .field { margin-bottom: 16px; }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--c-ink); }
+
+  input[type="text"], input[type="password"], input[type="number"], select {
+    width: 100%; padding: 11px 14px; border: 2px solid var(--c-line);
+    border-radius: 8px; font-size: 14px; background: #fff; color: var(--c-ink); transition: 0.2s;
   }
 
-  .sub {
-    margin: 0 0 20px 0;
-    font-size: 14px;
-    color: var(--muted);
-  }
+  input:focus, select:focus { outline: none; border-color: var(--c-violet); }
 
-  .field {
-    margin-bottom: 16px;
+  .pw-strength-bar {
+    height: 6px; width: 100%; background: var(--c-bg); border-radius: 4px; margin-top: 6px; overflow: hidden;
   }
-
-  .row-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    margin-bottom: 6px;
-    color: var(--ink);
-  }
-
-  input[type="text"],
-  input[type="password"],
-  input[type="number"],
-  select {
-    width: 100%;
-    padding: 11px 14px;
-    border: 1.5px solid var(--line);
-    border-radius: 10px;
-    font-size: 14px;
-    background: var(--canvas);
-    color: var(--ink);
-    transition: 0.2s;
-  }
-
-  input:focus, select:focus {
-    outline: none;
-    border-color: var(--violet);
-    background: #fff;
-  }
+  .pw-fill { height: 100%; width: 0%; transition: 0.3s; }
+  .pw-text { font-size: 11px; margin-top: 4px; font-weight: 600; }
 
   .radio-group {
-    display: flex;
-    gap: 16px;
-    background: var(--canvas);
-    padding: 10px 14px;
-    border-radius: 10px;
-    border: 1.5px solid var(--line);
+    display: flex; gap: 16px; background: #fff; padding: 10px 14px; border-radius: 8px; border: 2px solid var(--c-line);
   }
-
-  .radio-group label {
-    margin: 0;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-  }
+  .radio-group label { margin: 0; font-weight: 500; display: flex; align-items: center; gap: 6px; cursor: pointer; }
 
   .checks {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    background: var(--canvas);
-    padding: 12px;
-    border-radius: 10px;
-    border: 1.5px solid var(--line);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: #fff; padding: 12px; border-radius: 8px; border: 2px solid var(--c-line);
   }
+  .checks label { margin: 0; font-weight: 400; display: flex; align-items: center; gap: 6px; cursor: pointer; }
 
-  .checks label {
-    margin: 0;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-  }
-
-  .seg-tabs {
-    display: flex;
-    background: #f1f5f9;
-    padding: 4px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-    gap: 4px;
-  }
-
+  .seg-tabs { display: flex; background: #e2e8f0; padding: 4px; border-radius: 10px; margin-bottom: 20px; gap: 4px; }
   .seg-btn {
-    flex: 1;
-    padding: 9px;
-    border: none;
-    background: transparent;
-    color: var(--muted);
-    font-size: 13px;
-    font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
-    margin: 0;
-    transition: 0.2s;
+    flex: 1; padding: 9px; border: none; background: transparent; color: var(--c-muted);
+    font-size: 13px; font-weight: 600; border-radius: 8px; cursor: pointer; margin: 0; transition: 0.2s;
   }
-
-  .seg-btn.active {
-    background: #fff;
-    color: var(--violet);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  }
+  .seg-btn.active { background: #fff; color: var(--c-ink); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
   .btn {
-    width: 100%;
-    padding: 13px;
-    border: none;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 600;
-    color: #fff;
-    cursor: pointer;
-    margin-top: 12px;
-    transition: 0.2s;
+    width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 14px;
+    font-weight: 600; color: #fff; cursor: pointer; margin-top: 12px; transition: 0.2s;
   }
+  .btn:hover { opacity: 0.9; }
 
-  .btn:hover { opacity: 0.92; transform: translateY(-1px); }
-  .btn-violet { background: linear-gradient(90deg, var(--violet), #6366f1); }
-  .btn-sky { background: linear-gradient(90deg, var(--sky), #0284c7); }
-  .btn-mint { background: linear-gradient(90deg, var(--mint), #059669); }
-  .btn-rose { background: linear-gradient(90deg, var(--rose), #e11d48); }
-  .btn-ghost { background: #f1f5f9; color: var(--ink); }
+  .btn-violet { background: var(--c-violet); }
+  .btn-sky { background: var(--c-sky); }
+  .btn-mint { background: var(--c-mint); }
+  .btn-rose { background: var(--c-rose); }
+  .btn-orange { background: var(--c-orange); }
+  .btn-ghost { background: #e2e8f0; color: var(--c-ink); }
 
   .view { display: none; }
   .view.active { display: block; }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-    margin: 14px 0;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid var(--line);
-  }
-
-  th {
-    background: #f8fafc;
-    color: var(--muted);
-    font-weight: 600;
-    padding: 10px 8px;
-    text-align: center;
-    border-bottom: 1px solid var(--line);
-  }
-
-  td {
-    padding: 10px 8px;
-    text-align: center;
-    border-bottom: 1px solid var(--line);
-  }
-
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 14px 0; border-radius: 8px; overflow: hidden; border: 2px solid var(--c-line); }
+  th { background: #f1f5f9; color: var(--c-ink); font-weight: 600; padding: 10px 8px; text-align: center; border-bottom: 2px solid var(--c-line); }
+  td { padding: 10px 8px; text-align: center; border-bottom: 1px solid var(--c-line); }
   tr:last-child td { border-bottom: none; }
 
-  .stat-banner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
+  .stat-banner { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+  .stat-box { padding: 16px; border-radius: 10px; color: #fff; }
+  .stat-box small { font-size: 11px; opacity: 0.9; display: block; margin-bottom: 4px; }
+  .stat-box strong { font-size: 20px; font-weight: 700; display: block; }
+  .stat-box span { font-size: 11px; }
 
-  .stat-box {
-    padding: 16px;
-    border-radius: 14px;
-    color: #fff;
-  }
+  .bento-frame { background: #fff1f2; border: 2px solid #fda4af; padding: 14px; border-radius: 12px; margin: 16px 0; }
+  .bento-top { display: grid; grid-template-columns: 1.5fr 1fr; gap: 10px; }
+  .bento-right { display: grid; grid-template-rows: 1fr 1fr; gap: 10px; }
+  .bento-slot { background: #fff; padding: 12px; border-radius: 8px; position: relative; border: 2px solid var(--c-line); }
 
-  .stat-box small { font-size: 12px; opacity: 0.9; display: block; margin-bottom: 4px; }
-  .stat-box strong { font-size: 22px; font-weight: 700; display: block; }
-  .stat-box span { font-size: 12px; }
+  .slot-tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-bottom: 6px; }
+  .tag-rose { background: #ffe4e6; color: var(--c-rose); }
+  .tag-violet { background: #ede9fe; color: var(--c-violet); }
+  .tag-mint { background: #d1fae5; color: var(--c-mint); }
+  .tag-sky { background: #e0f2fe; color: var(--c-sky); }
 
-  .bento-frame {
-    background: #fff1f2;
-    border: 2px solid #fecdd3;
-    padding: 14px;
-    border-radius: 16px;
-    margin: 16px 0;
-  }
-
-  .bento-top {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 10px;
-  }
-
-  .bento-right {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .bento-slot {
-    background: #fff;
-    padding: 12px;
-    border-radius: 12px;
-    position: relative;
-    border: 1.5px solid var(--line);
-  }
-
-  .slot-tag {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 6px;
-    margin-bottom: 6px;
-  }
-
-  .tag-rose { background: #ffe4e6; color: var(--rose); }
-  .tag-violet { background: #ede9fe; color: var(--violet); }
-  .tag-mint { background: #d1fae5; color: var(--mint); }
-  .tag-sky { background: #e0f2fe; color: #0284c7; }
-
-  .slot-title { font-size: 14px; font-weight: 600; margin: 0 0 4px 0; padding-right: 28px; }
-  .slot-meta { font-size: 12px; color: var(--muted); margin: 0; }
+  .slot-title { font-size: 13px; font-weight: 600; margin: 0 0 4px 0; padding-right: 28px; }
+  .slot-meta { font-size: 11px; color: var(--c-muted); margin: 0; }
 
   .btn-spin {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
-    border: 1px solid var(--line);
-    background: var(--canvas);
-    cursor: pointer;
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    padding: 0;
+    position: absolute; bottom: 8px; right: 8px; width: 26px; height: 26px;
+    border-radius: 6px; border: 2px solid var(--c-line); background: #f8fafc;
+    cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center;
   }
 
-  .chart-wrap {
-    background: #fff;
-    border: 1.5px solid var(--line);
-    border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 18px;
-    height: 290px;
-    position: relative;
-  }
+  .chart-wrap { background: #fff; border: 2px solid var(--c-line); border-radius: 10px; padding: 16px; margin-bottom: 18px; height: 280px; position: relative; }
+  .monthly-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+  .m-card { background: #f8fafc; border: 2px solid var(--c-line); border-radius: 8px; padding: 10px; text-align: center; }
+  .m-card small { font-size: 11px; color: var(--c-muted); display: block; }
+  .m-card strong { font-size: 16px; color: var(--c-violet); }
 
-  .monthly-summary {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 16px;
-  }
-
-  .m-card {
-    background: var(--canvas);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 12px;
-    text-align: center;
-  }
-
-  .m-card small { font-size: 11px; color: var(--muted); display: block; }
-  .m-card strong { font-size: 18px; color: var(--violet); }
-
-  .me-row { background: #f5f3ff; font-weight: 600; }
-  .tip-list { margin: 8px 0 0 0; padding-left: 18px; font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .me-row { background: #ede9fe; font-weight: 600; }
+  .tip-list { margin: 8px 0 0 0; padding-left: 18px; font-size: 13px; color: var(--c-muted); line-height: 1.5; }
 </style>
 </head>
 <body>
@@ -377,10 +158,10 @@
     </div>
   </div>
 
-  <!-- Login / Register -->
+  <!-- Login/Register View -->
   <div id="vAuth" class="view active">
-    <h2>เข้าสู่ระบบ</h2>
-    <p class="sub">บันทึกค่า BMI รายวัน ดูกราฟสถิติ และจัดเซ็ตอาหารที่เหมาะกับร่างกาย</p>
+    <h2>เข้าสู่ระบบ / สมัครสมาชิก</h2>
+    <p class="sub">ชื่อผู้ใช้ต้องมีความยาว 5-30 ตัวอักษร และรหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร</p>
 
     <div class="seg-tabs">
       <button type="button" class="seg-btn active" id="tLogin" onclick="setAuthMode('login')">เข้าสู่ระบบ</button>
@@ -388,18 +169,23 @@
     </div>
 
     <div class="field">
-      <label>ชื่อผู้ใช้งาน</label>
-      <input type="text" id="inUser" placeholder="ระบุชื่อผู้ใช้">
+      <label>ชื่อผู้ใช้งาน (5 - 30 ตัวอักษร)</label>
+      <input type="text" id="inUser" placeholder="ระบุชื่อผู้ใช้" oninput="validateUserLen()">
+      <small id="userHint" style="font-size:11px; color:var(--c-muted);"></small>
     </div>
     <div class="field">
-      <label>รหัสผ่าน</label>
-      <input type="password" id="inPass" placeholder="ระบุรหัสผ่าน">
+      <label>รหัสผ่าน (อย่างน้อย 8 ตัวอักษร)</label>
+      <input type="password" id="inPass" placeholder="ระบุรหัสผ่าน" oninput="checkPasswordStrength(this.value)">
+      <div id="pwStrengthBox" style="display:none;">
+        <div class="pw-strength-bar"><div id="pwFill" class="pw-fill"></div></div>
+        <div id="pwText" class="pw-text">ระดับความปลอดภัย</div>
+      </div>
     </div>
 
     <button class="btn btn-violet" id="btnAuth" onclick="submitAuth()">เข้าสู่ระบบ</button>
   </div>
 
-  <!-- Home / Overview -->
+  <!-- Home View -->
   <div id="vHome" class="view">
     <h2>เกณฑ์มาตรฐาน BMI</h2>
     <p class="sub">ตารางอ้างอิงสัดส่วนร่างกายแยกตามสรีระเพศชายและหญิง</p>
@@ -415,25 +201,25 @@
       </thead>
       <tbody>
         <tr>
-          <td style="color:#eab308; font-weight:600;">น้ำหนักน้อย</td>
+          <td style="color:#ca8a04; font-weight:600;">น้ำหนักน้อย</td>
           <td>&lt; 20.0</td>
           <td>&lt; 18.5</td>
           <td>เพิ่มโปรตีนและพลังงาน</td>
         </tr>
         <tr>
-          <td style="color:var(--mint); font-weight:600;">สมส่วน</td>
+          <td style="color:var(--c-mint); font-weight:600;">สมส่วน</td>
           <td>20.0 - 24.9</td>
           <td>18.5 - 23.9</td>
           <td>รักษาสมดุลต่อเนื่อง</td>
         </tr>
         <tr>
-          <td style="color:#f97316; font-weight:600;">น้ำหนักเกิน</td>
+          <td style="color:var(--c-orange); font-weight:600;">น้ำหนักเกิน</td>
           <td>25.0 - 29.9</td>
           <td>24.0 - 28.9</td>
           <td>คุมคาร์บและน้ำตาล</td>
         </tr>
         <tr>
-          <td style="color:var(--rose); font-weight:600;">โรคอ้วน</td>
+          <td style="color:var(--c-rose); font-weight:600;">โรคอ้วน</td>
           <td>&ge; 30.0</td>
           <td>&ge; 29.0</td>
           <td>ปรับโภชนาการเคร่งครัด</td>
@@ -442,11 +228,11 @@
     </table>
 
     <button class="btn btn-violet" onclick="go('vForm')">คำนวณ BMI และจัดกล่องข้าว Bento</button>
-    <button class="btn btn-sky" onclick="openStats()">ดูกราฟสถิติ BMI (รายวัน / สัปดาห์ / เดือน)</button>
+    <button class="btn btn-sky" onclick="openStats()">ดูกราฟสถิติ BMI</button>
     <button class="btn btn-mint" onclick="openRank()">อันดับสุขภาพ (Leaderboard)</button>
   </div>
 
-  <!-- Form -->
+  <!-- Form View -->
   <div id="vForm" class="view">
     <h2>ข้อมูลร่างกาย</h2>
     <p class="sub">กรอกข้อมูลปัจจุบันเพื่อบันทึกสถิติและคำนวณปริมาณอาหารแต่ละมื้อ</p>
@@ -485,7 +271,7 @@
     <button class="btn btn-ghost" onclick="go('vHome')">ย้อนกลับ</button>
   </div>
 
-  <!-- Result -->
+  <!-- Result View -->
   <div id="vResult" class="view">
     <h2>ผลวิเคราะห์และจัดเซ็ตอาหาร</h2>
     <p class="sub">ระบบบันทึกค่า BMI ล่าสุดลงในประวัติเรียบร้อยแล้ว</p>
@@ -496,7 +282,7 @@
         <strong id="valBmi">0.00</strong>
         <span id="txtBmi">-</span>
       </div>
-      <div class="stat-box" style="background: linear-gradient(135deg, var(--sky), var(--violet));">
+      <div class="stat-box" style="background: var(--c-sky);">
         <small>พลังงานที่ควรได้รับ/วัน</small>
         <strong id="valCal">0 kcal</strong>
         <span>แบ่งสัดส่วน 3 มื้อหลัก</span>
@@ -549,7 +335,7 @@
       </div>
     </div>
 
-    <div style="background:var(--canvas); padding:14px; border-radius:12px; border:1px solid var(--line); margin-bottom:14px;">
+    <div style="background:#fff; padding:14px; border-radius:8px; border:2px solid var(--c-line); margin-bottom:14px;">
       <label style="margin:0;">แนวทางดูแลตัวเอง</label>
       <ul class="tip-list" id="ulTips"></ul>
     </div>
@@ -562,7 +348,7 @@
     <button class="btn btn-ghost" onclick="go('vHome')">กลับหน้าหลัก</button>
   </div>
 
-  <!-- Stats & Charts -->
+  <!-- Stats View -->
   <div id="vStats" class="view">
     <h2>สถิติแนวโน้ม BMI</h2>
     <p class="sub">ติดตามความเปลี่ยนแปลงแบบรายวัน รายสัปดาห์ และค่าเฉลี่ยรายเดือน</p>
@@ -580,11 +366,11 @@
       </div>
       <div class="m-card">
         <small>ค่าต่ำสุด</small>
-        <strong id="mMin" style="color:var(--mint);">-</strong>
+        <strong id="mMin" style="color:var(--c-mint);">-</strong>
       </div>
       <div class="m-card">
         <small>ค่าสูงสุด</small>
-        <strong id="mMax" style="color:var(--rose);">-</strong>
+        <strong id="mMax" style="color:var(--c-rose);">-</strong>
       </div>
     </div>
 
@@ -609,7 +395,7 @@
     <button class="btn btn-ghost" onclick="go('vHome')">กลับหน้าหลัก</button>
   </div>
 
-  <!-- Leaderboard -->
+  <!-- Leaderboard View -->
   <div id="vRank" class="view">
     <h2>อันดับความสมส่วน</h2>
     <p class="sub">จัดอันดับจากความใกล้เคียงเกณฑ์มาตรฐานสุขภาพของผู้ใช้งานในระบบ</p>
@@ -638,6 +424,7 @@ let currentMainMenu = '';
 let weightRules = {};
 let userAllergies = [];
 
+// เพิ่มฐานข้อมูลเมนูอาหารให้หลากหลายขึ้น
 const menuPool = {
   main: [
     { name: "ข้าวกล้อง + อกไก่ย่างพริกไทยดำ", tags: [] },
@@ -646,24 +433,37 @@ const menuPool = {
     { name: "ข้าวกล้อง + ลาบอกไก่คั่วแห้ง", tags: [] },
     { name: "ข้าวไรซ์เบอร์รี่ + ไก่ผัดเม็ดมะม่วง", tags: ["nut"] },
     { name: "ข้าวกล้อง + แซลมอนย่างเกลือ", tags: ["seafood"] },
-    { name: "ข้าวไรซ์เบอร์รี่ + สันในหมูอบน้ำผึ้ง", tags: [] }
+    { name: "ข้าวไรซ์เบอร์รี่ + สันในหมูอบน้ำผึ้ง", tags: [] },
+    { name: "ข้าวกล้อง + กุ้งผัดพริกสดสมุนไพร", tags: ["seafood"] },
+    { name: "เส้นบุกผัดซีอิ๊วอกไก่", tags: ["wheat"] },
+    { name: "ข้าวกล้อง + ปลาทูต้มยำแห้ง", tags: ["seafood"] },
+    { name: "สเต็กเนื้อซูวี + มันฝรั่งบดลีน", tags: [] }
   ],
   side: [
     { name: "ไข่ต้มยางมะตูม 1 ฟอง", tags: ["egg"] },
     { name: "เต้าหู้ขาวนึ่งซีอิ๊วญี่ปุ่น", tags: [] },
     { name: "ไข่ตุ๋นทรงเครื่องอกไก่สับ", tags: ["egg"] },
-    { name: "เต้าหู้เหลืองผัดถั่วงอก", tags: [] }
+    { name: "เต้าหู้เหลืองผัดถั่วงอก", tags: [] },
+    { name: "ไข่ดาวน้ำ (Poached Egg)", tags: ["egg"] },
+    { name: "ถั่วแระญี่ปุ่นต้มเกลือ", tags: ["nut"] },
+    { name: "ลูกชิ้นอกไก่ลวกจิ้ม", tags: [] }
   ],
   veg: [
     { name: "บล็อคโคลี่และแครอทลวก", tags: [] },
     { name: "หน่อไม้ฝรั่งผัดเห็ดออรินจิ", tags: [] },
-    { name: "กะหล่ำปลีตุ๋นเห็ดหอม", tags: [] }
+    { name: "กะหล่ำปลีตุ๋นเห็ดหอม", tags: [] },
+    { name: "ผักกวางตุ้งฮ่องเต้นึ่งกระเทียม", tags: [] },
+    { name: "ฟักทองญี่ปุ่นนึ่งเนื้อหนึบ", tags: [] },
+    { name: "สลัดผักรวมน้ำใส", tags: [] }
   ],
   snack: [
     { name: "แอปเปิ้ลเขียว 1 ลูก", tags: [] },
     { name: "ฝรั่งกิมจูหั่นชิ้น", tags: [] },
     { name: "แก้วมังกรเนื้อขาว", tags: [] },
-    { name: "โยเกิร์ตธรรมชาติ 0%", tags: ["milk"] }
+    { name: "โยเกิร์ตธรรมชาติ 0%", tags: ["milk"] },
+    { name: "กล้วยหอมทอง 1 ลูก", tags: [] },
+    { name: "ส้มสายน้ำผึ้ง 2 ลูก", tags: [] },
+    { name: "เมล็ดอัลมอนด์อบ (1 กำมือ)", tags: ["nut"] }
   ]
 };
 
@@ -690,10 +490,78 @@ function setAuthMode(mode) {
   document.getElementById('btnAuth').innerText = mode === 'login' ? 'เข้าสู่ระบบ' : 'สร้างบัญชีใหม่';
 }
 
+function validateUserLen() {
+  const u = document.getElementById('inUser').value;
+  const hint = document.getElementById('userHint');
+  if (authMode === 'register' && u.length > 0) {
+    if (u.length < 5 || u.length > 30) {
+      hint.style.color = 'var(--c-rose)';
+      hint.innerText = `ความยาวปัจจุบัน ${u.length} ตัวอักษร (ต้องอยู่ระหว่าง 5 - 30 ตัว)`;
+    } else {
+      hint.style.color = 'var(--c-mint)';
+      hint.innerText = `ความยาวถูกต้อง (${u.length} ตัวอักษร)`;
+    }
+  } else {
+    hint.innerText = '';
+  }
+}
+
+function checkPasswordStrength(pw) {
+  const box = document.getElementById('pwStrengthBox');
+  const fill = document.getElementById('pwFill');
+  const text = document.getElementById('pwText');
+
+  if (authMode === 'login' || pw.length === 0) {
+    box.style.display = 'none';
+    return;
+  }
+  box.style.display = 'block';
+
+  let score = 0;
+  if (pw.length >= 8) score++;
+  if (/[A-Z]/.test(pw)) score++;
+  if (/[0-9]/.test(pw)) score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+
+  if (pw.length < 8) {
+    fill.style.width = '25%';
+    fill.style.background = 'var(--c-rose)';
+    text.style.color = 'var(--c-rose)';
+    text.innerText = 'รหัสผ่านสั้นเกินไป (ต้องมากกว่า 8 ตัวอักษร)';
+  } else if (score <= 2) {
+    fill.style.width = '50%';
+    fill.style.background = 'var(--c-orange)';
+    text.style.color = 'var(--c-orange)';
+    text.innerText = 'ระดับ: ปานกลาง (ควรเพิ่มตัวเลขหรืออักขระพิเศษ)';
+  } else if (score === 3) {
+    fill.style.width = '75%';
+    fill.style.background = 'var(--c-sky)';
+    text.style.color = 'var(--c-sky)';
+    text.innerText = 'ระดับ: ดีมาก';
+  } else {
+    fill.style.width = '100%';
+    fill.style.background = 'var(--c-mint)';
+    text.style.color = 'var(--c-mint)';
+    text.innerText = 'ระดับ: แข็งแกร่งปลอดภัยสูงสุด';
+  }
+}
+
 function submitAuth() {
   const u = document.getElementById('inUser').value.trim();
   const p = document.getElementById('inPass').value.trim();
+
   if (!u || !p) { alert('กรุณากรอกข้อมูลให้ครบ'); return; }
+
+  if (authMode === 'register') {
+    if (u.length < 5 || u.length > 30) {
+      alert('ชื่อผู้ใช้งานต้องมีความยาวระหว่าง 5 ถึง 30 ตัวอักษร');
+      return;
+    }
+    if (p.length < 8) {
+      alert('รหัสผ่านต้องมีความยาวมากกว่า 8 ตัวอักษรขึ้นไป');
+      return;
+    }
+  }
 
   const db = JSON.parse(localStorage.getItem('bb_users') || '{}');
   if (authMode === 'register') {
@@ -714,6 +582,7 @@ function startSession(u) {
   document.getElementById('userPill').style.display = 'flex';
   document.getElementById('inUser').value = '';
   document.getElementById('inPass').value = '';
+  document.getElementById('pwStrengthBox').style.display = 'none';
   go('vHome');
 }
 
@@ -738,38 +607,38 @@ function runCalc() {
   if (gender === 'ชาย') {
     tdee = w * 24 * 1.2;
     if (bmi < 20.0) {
-      status = 'น้ำหนักน้อยกว่าเกณฑ์'; bg = 'linear-gradient(135deg, #f59e0b, #eab308)';
+      status = 'น้ำหนักน้อยกว่าเกณฑ์'; bg = 'var(--c-orange)';
       weightRules = { main: 'คาร์บ 180g + เนื้อ 150g', side: 'โปรตีน 90g', veg: 'ผัก 120g', snack: '90g' };
       tips = ['เพิ่มปริมาณโปรตีนในทุกมื้ออาหาร', 'ฝึกเวทเทรนนิ่งเพื่อสร้างมวลกล้ามเนื้อ'];
     } else if (bmi < 25.0) {
-      status = 'สมส่วน สุขภาพดี'; bg = 'linear-gradient(135deg, #10b981, #059669)';
+      status = 'สมส่วน สุขภาพดี'; bg = 'var(--c-mint)';
       weightRules = { main: 'คาร์บ 150g + เนื้อ 130g', side: 'โปรตีน 70g', veg: 'ผัก 120g', snack: '80g' };
       tips = ['รักษาสัดส่วนสารอาหารให้คงที่', 'ออกกำลังกายแบบคาร์ดิโอ 150 นาทีต่อสัปดาห์'];
     } else if (bmi < 30.0) {
-      status = 'น้ำหนักเกินเกณฑ์'; bg = 'linear-gradient(135deg, #f97316, #ea580c)';
+      status = 'น้ำหนักเกินเกณฑ์'; bg = 'var(--c-orange)';
       weightRules = { main: 'คาร์บ 100g + เนื้อ 130g', side: 'โปรตีน 60g', veg: 'ผัก 160g', snack: '50g' };
       tips = ['ลดอาหารทอดและเครื่องดื่มที่มีน้ำตาล', 'เพิ่มสัดส่วนผักใบเขียวในมื้อเย็น'];
     } else {
-      status = 'ภาวะโรคอ้วน'; bg = 'linear-gradient(135deg, #f43f5e, #e11d48)';
+      status = 'ภาวะโรคอ้วน'; bg = 'var(--c-rose)';
       weightRules = { main: 'คาร์บ 70g + เนื้อ 140g', side: 'โปรตีน 60g', veg: 'ผัก 200g', snack: '50g' };
       tips = ['หลีกเลี่ยงแป้งขัดขาวและน้ำหวานเด็ดขาด', 'เริ่มออกกำลังกายด้วยการเดินเร็วหรือว่ายน้ำ'];
     }
   } else {
     tdee = w * 22 * 1.2;
     if (bmi < 18.5) {
-      status = 'น้ำหนักน้อยกว่าเกณฑ์'; bg = 'linear-gradient(135deg, #f59e0b, #eab308)';
+      status = 'น้ำหนักน้อยกว่าเกณฑ์'; bg = 'var(--c-orange)';
       weightRules = { main: 'คาร์บ 140g + เนื้อ 110g', side: 'โปรตีน 70g', veg: 'ผัก 100g', snack: '70g' };
       tips = ['เน้นอาหารที่ให้พลังงานและธาตุเหล็กสูง', 'เสริมไขมันดีจากถั่วและอะโวคาโด'];
     } else if (bmi < 24.0) {
-      status = 'สมส่วน สุขภาพดี'; bg = 'linear-gradient(135deg, #10b981, #059669)';
+      status = 'สมส่วน สุขภาพดี'; bg = 'var(--c-mint)';
       weightRules = { main: 'คาร์บ 120g + เนื้อ 100g', side: 'โปรตีน 50g', veg: 'ผัก 100g', snack: '60g' };
       tips = ['ควบคุมปริมาณน้ำตาลและโซเดียม', 'ออกกำลังกายแบบเวทบอดี้เวทเพื่อความกระชับ'];
     } else if (bmi < 29.0) {
-      status = 'น้ำหนักเกินเกณฑ์'; bg = 'linear-gradient(135deg, #f97316, #ea580c)';
+      status = 'น้ำหนักเกินเกณฑ์'; bg = 'var(--c-orange)';
       weightRules = { main: 'คาร์บ 80g + เนื้อ 100g', side: 'โปรตีน 40g', veg: 'ผัก 140g', snack: '40g' };
       tips = ['งดเครื่องดื่มชานมและเบเกอรี่', 'เน้นการออกกำลังกายแบบแอโรบิกต่อเนื่อง'];
     } else {
-      status = 'ภาวะโรคอ้วน'; bg = 'linear-gradient(135deg, #f43f5e, #e11d48)';
+      status = 'ภาวะโรคอ้วน'; bg = 'var(--c-rose)';
       weightRules = { main: 'คาร์บ 50g + เนื้อ 110g', side: 'โปรตีน 40g', veg: 'ผัก 180g', snack: '30g' };
       tips = ['ปรับลดปริมาณคาร์โบไฮเดรตลงครึ่งหนึ่ง', 'เดินออกกำลังกายสม่ำเสมอทุกวัน'];
     }
@@ -795,10 +664,10 @@ function runCalc() {
     const v = Math.round(s.r * (gender === 'ชาย' ? 400 : 320));
     return `<tr>
       <td style="text-align:left; font-weight:500;">${s.label}</td>
-      <td style="color:var(--violet); font-weight:600;">${kcal} kcal</td>
+      <td style="color:var(--c-violet); font-weight:600;">${kcal} kcal</td>
       <td>${c}g</td>
       <td>${p}g</td>
-      <td style="color:var(--mint);">${v}g</td>
+      <td style="color:var(--c-mint);">${v}g</td>
     </tr>`;
   }).join('');
 
@@ -872,7 +741,7 @@ function renderHistoryTable() {
   const tb = document.getElementById('tbHist');
 
   if (!logs.length) {
-    tb.innerHTML = '<tr><td colspan="4" style="color:var(--muted);">ยังไม่มีประวัติการบันทึก</td></tr>';
+    tb.innerHTML = '<tr><td colspan="4" style="color:var(--c-muted);">ยังไม่มีประวัติการบันทึก</td></tr>';
     return;
   }
 
@@ -881,7 +750,7 @@ function renderHistoryTable() {
       <td>${l.date}</td>
       <td>${l.w} กก.</td>
       <td>${l.h} ซม.</td>
-      <td style="font-weight:600; color:var(--violet);">${l.bmi}</td>
+      <td style="font-weight:600; color:var(--c-violet);">${l.bmi}</td>
     </tr>
   `).join('');
 }
@@ -902,8 +771,8 @@ function switchChart(mode) {
   let values = [];
   let chartType = 'line';
   let datasetLabel = 'BMI รายวัน';
-  let colorMain = '#8b5cf6';
-  let bgFill = 'rgba(139, 92, 246, 0.12)';
+  let colorMain = '#7c3aed';
+  let bgFill = 'rgba(124, 58, 237, 0.1)';
 
   if (mode === 'daily') {
     const recent = logs.slice(-14);
@@ -927,8 +796,8 @@ function switchChart(mode) {
     });
     chartType = 'bar';
     datasetLabel = 'ค่าเฉลี่ย BMI รายสัปดาห์';
-    colorMain = '#38bdf8';
-    bgFill = 'rgba(56, 189, 248, 0.75)';
+    colorMain = '#0284c7';
+    bgFill = '#0284c7';
   } else if (mode === 'monthly') {
     const monthNames = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
     const monthMap = {};
@@ -945,8 +814,8 @@ function switchChart(mode) {
     });
     chartType = 'line';
     datasetLabel = 'ค่าเฉลี่ย BMI รายเดือน';
-    colorMain = '#f43f5e';
-    bgFill = 'rgba(244, 63, 94, 0.12)';
+    colorMain = '#e11d48';
+    bgFill = 'rgba(225, 29, 72, 0.1)';
 
     if (values.length > 0) {
       const currentMonthKey = labels[labels.length - 1];
@@ -977,11 +846,11 @@ function switchChart(mode) {
         data: values,
         borderColor: colorMain,
         backgroundColor: bgFill,
-        borderWidth: 2.5,
-        borderRadius: chartType === 'bar' ? 8 : 0,
+        borderWidth: 2,
+        borderRadius: chartType === 'bar' ? 4 : 0,
         fill: chartType === 'line',
-        tension: 0.25,
-        pointRadius: 5,
+        tension: 0.2,
+        pointRadius: 4,
         pointBackgroundColor: '#fff',
         pointBorderColor: colorMain,
         pointBorderWidth: 2
@@ -1032,15 +901,15 @@ function openRank() {
       const ideal = last.gender === 'ชาย' ? 22.5 : 21.2;
       const score = Math.max(0, 100 - Math.abs(last.bmi - ideal) * 8);
 
-      let st = 'สมส่วน', col = 'var(--mint)';
+      let st = 'สมส่วน', col = 'var(--c-mint)';
       if (last.gender === 'ชาย') {
-        if (last.bmi < 20) { st = 'น้ำหนักน้อย'; col = '#eab308'; }
-        else if (last.bmi >= 25 && last.bmi < 30) { st = 'น้ำหนักเกิน'; col = '#f97316'; }
-        else if (last.bmi >= 30) { st = 'โรคอ้วน'; col = 'var(--rose)'; }
+        if (last.bmi < 20) { st = 'น้ำหนักน้อย'; col = '#ca8a04'; }
+        else if (last.bmi >= 25 && last.bmi < 30) { st = 'น้ำหนักเกิน'; col = 'var(--c-orange)'; }
+        else if (last.bmi >= 30) { st = 'โรคอ้วน'; col = 'var(--c-rose)'; }
       } else {
-        if (last.bmi < 18.5) { st = 'น้ำหนักน้อย'; col = '#eab308'; }
-        else if (last.bmi >= 24 && last.bmi < 29) { st = 'น้ำหนักเกิน'; col = '#f97316'; }
-        else if (last.bmi >= 29) { st = 'โรคอ้วน'; col = 'var(--rose)'; }
+        if (last.bmi < 18.5) { st = 'น้ำหนักน้อย'; col = '#ca8a04'; }
+        else if (last.bmi >= 24 && last.bmi < 29) { st = 'น้ำหนักเกิน'; col = 'var(--c-orange)'; }
+        else if (last.bmi >= 29) { st = 'โรคอ้วน'; col = 'var(--c-rose)'; }
       }
 
       list.push({ user: u, bmi: last.bmi, score: score, st: st, col: col });
@@ -1051,7 +920,7 @@ function openRank() {
   const tb = document.getElementById('tbRank');
 
   if (!list.length) {
-    tb.innerHTML = '<tr><td colspan="4" style="color:var(--muted);">ยังไม่มีข้อมูลผู้ใช้งานในระบบ</td></tr>';
+    tb.innerHTML = '<tr><td colspan="4" style="color:var(--c-muted);">ยังไม่มีข้อมูลผู้ใช้งานในระบบ</td></tr>';
   } else {
     tb.innerHTML = list.map((item, i) => `
       <tr class="${item.user === activeUser ? 'me-row' : ''}">
