@@ -41,7 +41,7 @@
 
   .shell {
     width: 100%;
-    max-width: 640px;
+    max-width: 660px;
     background: var(--card);
     border-radius: 20px;
     padding: 32px;
@@ -338,6 +338,9 @@
     border-radius: 12px;
     position: relative;
     border: 1.5px solid rgba(30, 41, 59, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .pill {
@@ -348,6 +351,7 @@
     border-radius: 6px;
     margin-bottom: 8px;
     color: var(--text);
+    width: fit-content;
   }
 
   .p-pink { background: var(--pink); }
@@ -356,12 +360,12 @@
   .p-blue { background: var(--blue); }
 
   .dish-name { font-size: 14px; font-weight: 600; margin: 0 0 4px 0; padding-right: 30px; line-height: 1.4; }
-  .dish-gram { font-size: 12px; color: var(--subtext); margin: 0; }
+  .dish-gram { font-size: 12px; color: var(--subtext); margin: 0 0 10px 0; }
 
   .btn-reroll {
     position: absolute;
-    bottom: 10px;
-    right: 10px;
+    top: 12px;
+    right: 12px;
     width: 28px;
     height: 28px;
     border-radius: 8px;
@@ -373,6 +377,67 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .dish-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border);
+  }
+
+  .mini-link {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(30, 41, 59, 0.15);
+    background: #f8fafc;
+    color: var(--text);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .mini-link:hover { opacity: 0.85; }
+  .act-map { background: var(--blue); }
+  .act-lineman { background: var(--green); }
+  .act-grab { background: #dcfce7; }
+
+  .order-hub {
+    background: #f8fafc;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .order-hub-title {
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    color: var(--text);
+  }
+
+  .delivery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .btn-deliv {
+    padding: 10px 8px;
+    border-radius: 10px;
+    border: 1.5px solid rgba(30, 41, 59, 0.12);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    text-align: center;
   }
 
   .note-panel {
@@ -436,7 +501,7 @@
   <div class="header">
     <div class="logo">
       <span class="logo-dot"></span>
-      <span>Fit Portion</span>
+      <span>BentoBalance</span>
     </div>
     <div id="userChip" class="user-chip" style="display:none;">
       <span id="navUser">User</span>
@@ -590,35 +655,72 @@
       </table>
     </div>
 
-    <label>ตัวอย่างการจัดกล่องข้าว Bento (1 มื้อหลัก)</label>
+    <label>ตัวอย่างการจัดกล่องข้าว Bento (กดค้นหาโลเคชั่นหรือสั่งอาหารแยกตามเมนูได้)</label>
     <div class="bento-board">
       <div class="bento-upper">
         <div class="card-dish">
-          <span class="pill p-pink">จานหลัก</span>
-          <p class="dish-name" id="fMain"></p>
-          <p class="dish-gram" id="wMain"></p>
-          <button class="btn-reroll" onclick="spinSlot('main')">↻</button>
+          <div>
+            <span class="pill p-pink">จานหลัก</span>
+            <p class="dish-name" id="fMain"></p>
+            <p class="dish-gram" id="wMain"></p>
+          </div>
+          <button class="btn-reroll" onclick="spinSlot('main')" title="สุ่มจานหลักใหม่">↻</button>
+          <div class="dish-actions">
+            <button class="mini-link act-map" onclick="openDishMap('main')">📍 โลเคชั่นร้านจานหลัก</button>
+            <button class="mini-link act-lineman" onclick="orderDish('main', 'lineman')">LINE MAN</button>
+            <button class="mini-link act-grab" onclick="orderDish('main', 'grab')">GrabFood</button>
+          </div>
         </div>
         <div class="bento-stack">
           <div class="card-dish">
-            <span class="pill p-purple">เครื่องเคียง</span>
-            <p class="dish-name" id="fSide"></p>
-            <p class="dish-gram" id="wSide"></p>
-            <button class="btn-reroll" onclick="spinSlot('side')">↻</button>
+            <div>
+              <span class="pill p-purple">เครื่องเคียง</span>
+              <p class="dish-name" id="fSide"></p>
+              <p class="dish-gram" id="wSide"></p>
+            </div>
+            <button class="btn-reroll" onclick="spinSlot('side')" title="สุ่มเครื่องเคียงใหม่">↻</button>
+            <div class="dish-actions">
+              <button class="mini-link act-map" onclick="openDishMap('side')">📍 พิกัดเมนูนี้</button>
+              <button class="mini-link act-lineman" onclick="orderDish('side', 'lineman')">LINE MAN</button>
+              <button class="mini-link act-grab" onclick="orderDish('side', 'grab')">Grab</button>
+            </div>
           </div>
           <div class="card-dish">
-            <span class="pill p-green">ผักและไฟเบอร์</span>
-            <p class="dish-name" id="fVeg"></p>
-            <p class="dish-gram" id="wVeg"></p>
-            <button class="btn-reroll" onclick="spinSlot('veg')">↻</button>
+            <div>
+              <span class="pill p-green">ผักและไฟเบอร์</span>
+              <p class="dish-name" id="fVeg"></p>
+              <p class="dish-gram" id="wVeg"></p>
+            </div>
+            <button class="btn-reroll" onclick="spinSlot('veg')" title="สุ่มเมนูผักใหม่">↻</button>
+            <div class="dish-actions">
+              <button class="mini-link act-map" onclick="openDishMap('veg')">📍 พิกัดเมนูนี้</button>
+              <button class="mini-link act-lineman" onclick="orderDish('veg', 'lineman')">LINE MAN</button>
+              <button class="mini-link act-grab" onclick="orderDish('veg', 'grab')">Grab</button>
+            </div>
           </div>
         </div>
       </div>
       <div class="card-dish" style="margin-top:12px;">
-        <span class="pill p-blue">ผลไม้ / ของว่าง</span>
-        <p class="dish-name" id="fSnack"></p>
-        <p class="dish-gram" id="wSnack"></p>
-        <button class="btn-reroll" onclick="spinSlot('snack')">↻</button>
+        <div>
+          <span class="pill p-blue">ผลไม้ / ของว่าง</span>
+          <p class="dish-name" id="fSnack"></p>
+          <p class="dish-gram" id="wSnack"></p>
+        </div>
+        <button class="btn-reroll" onclick="spinSlot('snack')" title="สุ่มของว่างใหม่">↻</button>
+        <div class="dish-actions">
+          <button class="mini-link act-map" onclick="openDishMap('snack')">📍 โลเคชั่นร้านของว่าง/ผลไม้</button>
+          <button class="mini-link act-lineman" onclick="orderDish('snack', 'lineman')">สั่งผ่าน LINE MAN</button>
+          <button class="mini-link act-grab" onclick="orderDish('snack', 'grab')">สั่งผ่าน GrabFood</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="order-hub">
+      <p class="order-hub-title">ค้นหาและสั่งอาหารจานหลักตามเมนูที่ได้ทันที</p>
+      <div class="delivery-grid">
+        <button class="btn-deliv bg-blue" onclick="openDishMap('main')">📍 แผนที่ร้านจานหลัก</button>
+        <button class="btn-deliv bg-green" onclick="orderDish('main', 'lineman')">🛵 สั่ง LINE MAN</button>
+        <button class="btn-deliv" style="background:#dcfce7;" onclick="orderDish('main', 'grab')">🛍️ สั่ง GrabFood</button>
       </div>
     </div>
 
@@ -627,10 +729,7 @@
       <ul id="ulTips"></ul>
     </div>
 
-    <div class="cols-2">
-      <button class="btn bg-blue" style="margin-top:0;" onclick="spinAll()">สุ่มเมนูใหม่ทั้งหมด</button>
-      <button class="btn bg-green" style="margin-top:0;" onclick="findMap()">ค้นหาร้านใกล้ฉัน</button>
-    </div>
+    <button class="btn bg-blue" style="margin-top:0;" onclick="spinAll()">สุ่มเมนูใหม่ทั้งหมด</button>
     <button class="btn bg-purple" onclick="openStats()">ดูกราฟสถิติ BMI</button>
     <button class="btn bg-muted" onclick="go('vHome')">กลับหน้าหลัก</button>
   </div>
@@ -709,7 +808,7 @@
 let authMode = 'login';
 let activeUser = null;
 let chartObj = null;
-let currentMainMenu = '';
+let selectedMenus = { main: '', side: '', veg: '', snack: '' };
 let weightRules = {};
 let userAllergies = [];
 
@@ -974,8 +1073,9 @@ function spinSlot(type) {
   const safeList = list.length ? list : [{ name: 'ข้าวกล้อง + ผักนึ่งรวมมิตร', tags: [] }];
   const picked = safeList[Math.floor(Math.random() * safeList.length)].name;
 
+  selectedMenus[type] = picked;
+
   if (type === 'main') {
-    currentMainMenu = picked;
     document.getElementById('fMain').innerText = picked;
     document.getElementById('wMain').innerText = weightRules.main;
   } else if (type === 'side') {
@@ -994,9 +1094,26 @@ function spinAll() {
   ['main', 'side', 'veg', 'snack'].forEach(spinSlot);
 }
 
-function findMap() {
-  const q = currentMainMenu ? (currentMainMenu.split('+')[1] || currentMainMenu) : 'อาหารคลีน';
-  window.open(`https://www.google.com/maps/search/${encodeURIComponent(q.trim())}+ใกล้ฉัน`, '_blank');
+function getCleanKeyword(type) {
+  const raw = selectedMenus[type] || '';
+  if (!raw) return 'อาหารคลีน';
+  const parts = raw.split('+');
+  const keyword = parts.length > 1 ? parts[1].trim() : parts[0].trim();
+  return keyword.replace(/\d+\s*(ลูก|ฟอง|กำมือ)/g, '').trim();
+}
+
+function openDishMap(type) {
+  const q = getCleanKeyword(type);
+  window.open(`https://www.google.com/maps/search/${encodeURIComponent(q)}+ใกล้ฉัน`, '_blank');
+}
+
+function orderDish(type, platform) {
+  const q = getCleanKeyword(type);
+  if (platform === 'lineman') {
+    window.open(`https://www.google.com/search?q=${encodeURIComponent(q + ' สั่ง LINE MAN')}`, '_blank');
+  } else if (platform === 'grab') {
+    window.open(`https://food.grab.com/th/th/restaurants?search=${encodeURIComponent(q)}`, '_blank');
+  }
 }
 
 function saveLog(w, h, bmi, gender) {
