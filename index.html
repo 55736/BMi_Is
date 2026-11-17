@@ -8,14 +8,13 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
   :root {
-    --blue: #0284c7;
-    --purple: #7c3aed;
-    --green: #059669;
-    --pink: #db2777;
-    --amber: #d97706;
+    --blue: #C5F1FF;
+    --purple: #D4C3FF;
+    --green: #CEFFB6;
+    --pink: #FFCBF3;
+    --amber: #FDE68A;
     --text: #1e293b;
-    --subtext: #64748b;
-    --bg: #f1f5f9;
+    --subtext: #475569;
     --card: #ffffff;
     --border: #e2e8f0;
   }
@@ -28,7 +27,11 @@
   body {
     margin: 0;
     padding: 32px 16px;
-    background-color: var(--bg);
+    background-color: var(--blue);
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.75) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.75) 1px, transparent 1px);
+    background-size: 28px 28px;
     color: var(--text);
     min-height: 100vh;
     display: flex;
@@ -42,8 +45,8 @@
     background: var(--card);
     border-radius: 20px;
     padding: 32px;
-    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
-    border: 1px solid var(--border);
+    box-shadow: 0 12px 30px rgba(30, 41, 59, 0.06);
+    border: 2px solid #ffffff;
   }
 
   .header {
@@ -52,7 +55,7 @@
     align-items: center;
     padding-bottom: 20px;
     margin-bottom: 28px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1.5px solid #f1f5f9;
   }
 
   .logo {
@@ -66,18 +69,18 @@
   }
 
   .logo-dot {
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     border-radius: 4px;
     background-color: var(--purple);
+    border: 1.5px solid var(--text);
   }
 
   .user-chip {
     display: flex;
     align-items: center;
     gap: 10px;
-    background: #f8fafc;
-    border: 1px solid var(--border);
+    background: var(--purple);
     padding: 6px 12px;
     border-radius: 10px;
     font-size: 13px;
@@ -87,8 +90,8 @@
 
   .btn-exit {
     background: var(--pink);
-    color: #fff;
-    border: none;
+    color: var(--text);
+    border: 1px solid rgba(30, 41, 59, 0.15);
     padding: 4px 10px;
     border-radius: 6px;
     font-size: 12px;
@@ -143,7 +146,7 @@
 
   input:focus {
     outline: none;
-    border-color: var(--purple);
+    border-color: #9370db;
     background: #ffffff;
   }
 
@@ -231,32 +234,32 @@
   }
 
   .tab.active {
-    background: #ffffff;
+    background: var(--purple);
     color: var(--text);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   }
 
   .btn {
     width: 100%;
     padding: 13px 16px;
-    border: none;
+    border: 1.5px solid rgba(30, 41, 59, 0.12);
     border-radius: 10px;
     font-size: 14px;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--text);
     cursor: pointer;
     margin-top: 12px;
     transition: opacity 0.2s, transform 0.1s;
   }
 
-  .btn:hover { opacity: 0.92; }
+  .btn:hover { opacity: 0.88; }
   .btn:active { transform: scale(0.99); }
 
   .bg-purple { background-color: var(--purple); }
   .bg-blue { background-color: var(--blue); }
   .bg-green { background-color: var(--green); }
   .bg-pink { background-color: var(--pink); }
-  .bg-muted { background-color: #e2e8f0; color: var(--text); }
+  .bg-muted { background-color: #f1f5f9; color: var(--text); }
 
   .page { display: none; }
   .page.active { display: block; }
@@ -301,16 +304,17 @@
   .kpi {
     padding: 18px;
     border-radius: 14px;
-    color: #ffffff;
+    color: var(--text);
+    border: 1.5px solid rgba(30, 41, 59, 0.12);
   }
 
-  .kpi small { font-size: 12px; opacity: 0.9; display: block; margin-bottom: 4px; }
+  .kpi small { font-size: 12px; opacity: 0.85; display: block; margin-bottom: 4px; font-weight: 600; }
   .kpi strong { font-size: 24px; font-weight: 700; display: block; line-height: 1.2; }
-  .kpi span { font-size: 12px; opacity: 0.95; }
+  .kpi span { font-size: 12px; font-weight: 500; }
 
   .bento-board {
-    background: #fdf2f8;
-    border: 1.5px solid #fbcfe8;
+    background: var(--pink);
+    border: 1.5px solid rgba(30, 41, 59, 0.12);
     padding: 16px;
     border-radius: 16px;
     margin: 14px 0 20px 0;
@@ -333,7 +337,7 @@
     padding: 14px;
     border-radius: 12px;
     position: relative;
-    border: 1.5px solid var(--border);
+    border: 1.5px solid rgba(30, 41, 59, 0.1);
   }
 
   .pill {
@@ -343,12 +347,13 @@
     padding: 3px 8px;
     border-radius: 6px;
     margin-bottom: 8px;
+    color: var(--text);
   }
 
-  .p-pink { background: #fce7f3; color: var(--pink); }
-  .p-purple { background: #ede9fe; color: var(--purple); }
-  .p-green { background: #d1fae5; color: var(--green); }
-  .p-blue { background: #e0f2fe; color: var(--blue); }
+  .p-pink { background: var(--pink); }
+  .p-purple { background: var(--purple); }
+  .p-green { background: var(--green); }
+  .p-blue { background: var(--blue); }
 
   .dish-name { font-size: 14px; font-weight: 600; margin: 0 0 4px 0; padding-right: 30px; line-height: 1.4; }
   .dish-gram { font-size: 12px; color: var(--subtext); margin: 0; }
@@ -412,9 +417,17 @@
   }
 
   .m-item small { font-size: 12px; color: var(--subtext); display: block; margin-bottom: 2px; }
-  .m-item strong { font-size: 18px; color: var(--purple); }
+  .m-item strong { font-size: 18px; color: var(--text); }
 
-  .highlight-me { background-color: #f5f3ff; font-weight: 600; }
+  .highlight-me { background-color: var(--purple); font-weight: 600; }
+  .badge-status {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+  }
 </style>
 </head>
 <body>
@@ -474,25 +487,25 @@
         </thead>
         <tbody>
           <tr>
-            <td style="color:var(--amber); font-weight:600;">น้ำหนักน้อย</td>
+            <td><span class="badge-status" style="background:var(--amber);">น้ำหนักน้อย</span></td>
             <td>&lt; 20.0</td>
             <td>&lt; 18.5</td>
             <td>เพิ่มโปรตีนและพลังงาน</td>
           </tr>
           <tr>
-            <td style="color:var(--green); font-weight:600;">สมส่วน</td>
+            <td><span class="badge-status" style="background:var(--green);">สมส่วน</span></td>
             <td>20.0 - 24.9</td>
             <td>18.5 - 23.9</td>
             <td>รักษาสมดุลต่อเนื่อง</td>
           </tr>
           <tr>
-            <td style="color:var(--pink); font-weight:600;">น้ำหนักเกิน</td>
+            <td><span class="badge-status" style="background:var(--purple);">น้ำหนักเกิน</span></td>
             <td>25.0 - 29.9</td>
             <td>24.0 - 28.9</td>
             <td>คุมคาร์บและน้ำตาล</td>
           </tr>
           <tr>
-            <td style="color:#be123c; font-weight:600;">โรคอ้วน</td>
+            <td><span class="badge-status" style="background:var(--pink);">โรคอ้วน</span></td>
             <td>&ge; 30.0</td>
             <td>&ge; 29.0</td>
             <td>ปรับโภชนาการเคร่งครัด</td>
@@ -577,16 +590,16 @@
       </table>
     </div>
 
-    <label>ตัวอย่างการจัดกล่องข้าว (1 มื้อหลัก)</label>
-    <div class="Fit Portion-board">
-      <div class="Fit Portion-upper">
+    <label>ตัวอย่างการจัดกล่องข้าว Bento (1 มื้อหลัก)</label>
+    <div class="bento-board">
+      <div class="bento-upper">
         <div class="card-dish">
           <span class="pill p-pink">จานหลัก</span>
           <p class="dish-name" id="fMain"></p>
           <p class="dish-gram" id="wMain"></p>
           <button class="btn-reroll" onclick="spinSlot('main')">↻</button>
         </div>
-        <div class="Fit Portion-stack">
+        <div class="bento-stack">
           <div class="card-dish">
             <span class="pill p-purple">เครื่องเคียง</span>
             <p class="dish-name" id="fSide"></p>
@@ -639,11 +652,11 @@
       </div>
       <div class="m-item">
         <small>ค่าต่ำสุด</small>
-        <strong id="mMin" style="color:var(--green);">-</strong>
+        <strong id="mMin">-</strong>
       </div>
       <div class="m-item">
         <small>ค่าสูงสุด</small>
-        <strong id="mMax" style="color:var(--pink);">-</strong>
+        <strong id="mMax">-</strong>
       </div>
     </div>
 
@@ -772,10 +785,10 @@ function validateUserLen() {
   const hint = document.getElementById('userHint');
   if (authMode === 'register' && u.length > 0) {
     if (u.length < 5 || u.length > 30) {
-      hint.style.color = 'var(--pink)';
+      hint.style.color = '#be123c';
       hint.innerText = `ความยาว ${u.length} ตัวอักษร (ต้องอยู่ระหว่าง 5 - 30 ตัว)`;
     } else {
-      hint.style.color = 'var(--green)';
+      hint.style.color = '#059669';
       hint.innerText = `ความยาวใช้ได้ (${u.length} ตัวอักษร)`;
     }
   } else {
@@ -802,23 +815,23 @@ function checkPasswordStrength(pw) {
 
   if (pw.length < 8) {
     fill.style.width = '25%';
-    fill.style.backgroundColor = 'var(--pink)';
-    text.style.color = 'var(--pink)';
+    fill.style.backgroundColor = '#FFCBF3';
+    text.style.color = '#be123c';
     text.innerText = 'ระดับ: สั้นเกินไป (ต้องมากกว่า 8 ตัวอักษร)';
   } else if (score <= 2) {
     fill.style.width = '50%';
-    fill.style.backgroundColor = 'var(--amber)';
-    text.style.color = 'var(--amber)';
+    fill.style.backgroundColor = '#D4C3FF';
+    text.style.color = '#6d28d9';
     text.innerText = 'ระดับ: ปานกลาง (แนะนำให้เพิ่มตัวเลขหรืออักขระพิเศษ)';
   } else if (score === 3) {
     fill.style.width = '75%';
-    fill.style.backgroundColor = 'var(--blue)';
-    text.style.color = 'var(--blue)';
+    fill.style.backgroundColor = '#C5F1FF';
+    text.style.color = '#0369a1';
     text.innerText = 'ระดับ: ดีมาก';
   } else {
     fill.style.width = '100%';
-    fill.style.backgroundColor = 'var(--green)';
-    text.style.color = 'var(--green)';
+    fill.style.backgroundColor = '#CEFFB6';
+    text.style.color = '#047857';
     text.innerText = 'ระดับ: แข็งแกร่งปลอดภัยสูงสุด';
   }
 }
@@ -893,11 +906,11 @@ function runCalc() {
       weightRules = { main: 'คาร์บ 150g + เนื้อ 130g', side: 'โปรตีน 70g', veg: 'ผัก 120g', snack: '80g' };
       tips = ['รักษาสัดส่วนสารอาหารให้คงที่', 'ออกกำลังกายแบบคาร์ดิโอ 150 นาทีต่อสัปดาห์'];
     } else if (bmi < 30.0) {
-      status = 'น้ำหนักเกินเกณฑ์'; bg = 'var(--pink)';
+      status = 'น้ำหนักเกินเกณฑ์'; bg = 'var(--purple)';
       weightRules = { main: 'คาร์บ 100g + เนื้อ 130g', side: 'โปรตีน 60g', veg: 'ผัก 160g', snack: '50g' };
       tips = ['ลดอาหารทอดและเครื่องดื่มที่มีน้ำตาล', 'เพิ่มสัดส่วนผักใบเขียวในมื้อเย็น'];
     } else {
-      status = 'ภาวะโรคอ้วน'; bg = '#be123c';
+      status = 'ภาวะโรคอ้วน'; bg = 'var(--pink)';
       weightRules = { main: 'คาร์บ 70g + เนื้อ 140g', side: 'โปรตีน 60g', veg: 'ผัก 200g', snack: '50g' };
       tips = ['หลีกเลี่ยงแป้งขัดขาวและน้ำหวานเด็ดขาด', 'เริ่มออกกำลังกายด้วยการเดินเร็วหรือว่ายน้ำ'];
     }
@@ -912,11 +925,11 @@ function runCalc() {
       weightRules = { main: 'คาร์บ 120g + เนื้อ 100g', side: 'โปรตีน 50g', veg: 'ผัก 100g', snack: '60g' };
       tips = ['ควบคุมปริมาณน้ำตาลและโซเดียม', 'ออกกำลังกายแบบเวทบอดี้เวทเพื่อความกระชับ'];
     } else if (bmi < 29.0) {
-      status = 'น้ำหนักเกินเกณฑ์'; bg = 'var(--pink)';
+      status = 'น้ำหนักเกินเกณฑ์'; bg = 'var(--purple)';
       weightRules = { main: 'คาร์บ 80g + เนื้อ 100g', side: 'โปรตีน 40g', veg: 'ผัก 140g', snack: '40g' };
       tips = ['งดเครื่องดื่มชานมและเบเกอรี่', 'เน้นการออกกำลังกายแบบแอโรบิกต่อเนื่อง'];
     } else {
-      status = 'ภาวะโรคอ้วน'; bg = '#be123c';
+      status = 'ภาวะโรคอ้วน'; bg = 'var(--pink)';
       weightRules = { main: 'คาร์บ 50g + เนื้อ 110g', side: 'โปรตีน 40g', veg: 'ผัก 180g', snack: '30g' };
       tips = ['ปรับลดปริมาณคาร์โบไฮเดรตลงครึ่งหนึ่ง', 'เดินออกกำลังกายสม่ำเสมอทุกวัน'];
     }
@@ -942,10 +955,10 @@ function runCalc() {
     const v = Math.round(s.r * (gender === 'ชาย' ? 400 : 320));
     return `<tr>
       <td style="text-align:left; font-weight:600;">${s.label}</td>
-      <td style="color:var(--purple); font-weight:600;">${kcal} kcal</td>
+      <td style="font-weight:600;">${kcal} kcal</td>
       <td>${c}g</td>
       <td>${p}g</td>
-      <td style="color:var(--green); font-weight:600;">${v}g</td>
+      <td style="font-weight:600;">${v}g</td>
     </tr>`;
   }).join('');
 
@@ -1028,7 +1041,7 @@ function renderHistoryTable() {
       <td>${l.date}</td>
       <td>${l.w} กก.</td>
       <td>${l.h} ซม.</td>
-      <td style="font-weight:600; color:var(--purple);">${l.bmi}</td>
+      <td style="font-weight:600;">${l.bmi}</td>
     </tr>
   `).join('');
 }
@@ -1049,8 +1062,8 @@ function switchChart(mode) {
   let values = [];
   let chartType = 'line';
   let datasetLabel = 'BMI รายวัน';
-  let colorMain = '#7c3aed';
-  let bgFill = 'rgba(124, 58, 237, 0.1)';
+  let colorMain = '#9370db';
+  let bgFill = 'rgba(212, 195, 255, 0.45)';
 
   if (mode === 'daily') {
     const recent = logs.slice(-14);
@@ -1074,8 +1087,8 @@ function switchChart(mode) {
     });
     chartType = 'bar';
     datasetLabel = 'ค่าเฉลี่ย BMI รายสัปดาห์';
-    colorMain = '#0284c7';
-    bgFill = '#0284c7';
+    colorMain = '#38bdf8';
+    bgFill = '#C5F1FF';
   } else if (mode === 'monthly') {
     const monthNames = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
     const monthMap = {};
@@ -1092,8 +1105,8 @@ function switchChart(mode) {
     });
     chartType = 'line';
     datasetLabel = 'ค่าเฉลี่ย BMI รายเดือน';
-    colorMain = '#db2777';
-    bgFill = 'rgba(219, 39, 119, 0.1)';
+    colorMain = '#ec4899';
+    bgFill = 'rgba(255, 203, 243, 0.45)';
 
     if (values.length > 0) {
       const currentMonthKey = labels[labels.length - 1];
@@ -1182,12 +1195,12 @@ function openRank() {
       let st = 'สมส่วน', col = 'var(--green)';
       if (last.gender === 'ชาย') {
         if (last.bmi < 20) { st = 'น้ำหนักน้อย'; col = 'var(--amber)'; }
-        else if (last.bmi >= 25 && last.bmi < 30) { st = 'น้ำหนักเกิน'; col = 'var(--pink)'; }
-        else if (last.bmi >= 30) { st = 'โรคอ้วน'; col = '#be123c'; }
+        else if (last.bmi >= 25 && last.bmi < 30) { st = 'น้ำหนักเกิน'; col = 'var(--purple)'; }
+        else if (last.bmi >= 30) { st = 'โรคอ้วน'; col = 'var(--pink)'; }
       } else {
         if (last.bmi < 18.5) { st = 'น้ำหนักน้อย'; col = 'var(--amber)'; }
-        else if (last.bmi >= 24 && last.bmi < 29) { st = 'น้ำหนักเกิน'; col = 'var(--pink)'; }
-        else if (last.bmi >= 29) { st = 'โรคอ้วน'; col = '#be123c'; }
+        else if (last.bmi >= 24 && last.bmi < 29) { st = 'น้ำหนักเกิน'; col = 'var(--purple)'; }
+        else if (last.bmi >= 29) { st = 'โรคอ้วน'; col = 'var(--pink)'; }
       }
 
       list.push({ user: u, bmi: last.bmi, score: score, st: st, col: col });
@@ -1205,7 +1218,7 @@ function openRank() {
         <td>${i + 1}</td>
         <td>${item.user} ${item.user === activeUser ? '(คุณ)' : ''}</td>
         <td>${item.bmi}</td>
-        <td style="color:${item.col}; font-weight:600;">${item.st}</td>
+        <td><span class="badge-status" style="background:${item.col};">${item.st}</span></td>
       </tr>
     `).join('');
   }
