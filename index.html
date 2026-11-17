@@ -4,261 +4,534 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BentoBalance</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
   :root {
-    --c-sky: #0284c7;
-    --c-violet: #7c3aed;
-    --c-mint: #059669;
-    --c-rose: #e11d48;
-    --c-orange: #ea580c;
-    --c-ink: #0f172a;
-    --c-muted: #64748b;
-    --c-surface: #ffffff;
-    --c-bg: #f8fafc;
-    --c-line: #cbd5e1;
+    --blue: #0284c7;
+    --purple: #7c3aed;
+    --green: #059669;
+    --pink: #db2777;
+    --amber: #d97706;
+    --text: #1e293b;
+    --subtext: #64748b;
+    --bg: #f1f5f9;
+    --card: #ffffff;
+    --border: #e2e8f0;
   }
 
-  * { box-sizing: border-box; font-family: 'IBM Plex Sans Thai', sans-serif; }
+  * {
+    box-sizing: border-box;
+    font-family: 'Anuphan', sans-serif;
+  }
 
   body {
-    margin: 0; padding: 24px 16px;
-    background-color: var(--c-bg); color: var(--c-ink);
-    min-height: 100vh; display: flex; justify-content: center; align-items: flex-start;
+    margin: 0;
+    padding: 32px 16px;
+    background-color: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
   }
 
-  .app {
-    width: 100%; max-width: 680px; background: var(--c-surface);
-    border-radius: 16px; padding: 28px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--c-line);
+  .shell {
+    width: 100%;
+    max-width: 640px;
+    background: var(--card);
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+    border: 1px solid var(--border);
   }
 
-  .topbar {
-    display: flex; justify-content: space-between; align-items: center;
-    padding-bottom: 16px; margin-bottom: 24px; border-bottom: 2px solid var(--c-bg);
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 20px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--border);
   }
 
-  .brand { font-size: 22px; font-weight: 700; color: var(--c-violet); letter-spacing: -0.5px; }
-
-  .user-pill {
-    display: flex; align-items: center; gap: 10px; background: #f1f5f9;
-    padding: 6px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; color: var(--c-violet);
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 21px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.4px;
   }
 
-  .btn-out {
-    background: var(--c-rose); color: #fff; border: none; padding: 4px 10px;
-    border-radius: 20px; font-size: 12px; cursor: pointer; width: auto; margin: 0;
+  .logo-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+    background-color: var(--purple);
   }
 
-  h2 { margin: 0 0 8px 0; font-size: 20px; font-weight: 700; color: var(--c-ink); }
-  .sub { margin: 0 0 20px 0; font-size: 14px; color: var(--c-muted); }
-
-  .field { margin-bottom: 16px; }
-  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-  label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--c-ink); }
-
-  input[type="text"], input[type="password"], input[type="number"], select {
-    width: 100%; padding: 11px 14px; border: 2px solid var(--c-line);
-    border-radius: 8px; font-size: 14px; background: #fff; color: var(--c-ink); transition: 0.2s;
+  .user-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
   }
 
-  input:focus, select:focus { outline: none; border-color: var(--c-violet); }
-
-  .pw-strength-bar {
-    height: 6px; width: 100%; background: var(--c-bg); border-radius: 4px; margin-top: 6px; overflow: hidden;
+  .btn-exit {
+    background: var(--pink);
+    color: #fff;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
   }
-  .pw-fill { height: 100%; width: 0%; transition: 0.3s; }
-  .pw-text { font-size: 11px; margin-top: 4px; font-weight: 600; }
 
-  .radio-group {
-    display: flex; gap: 16px; background: #fff; padding: 10px 14px; border-radius: 8px; border: 2px solid var(--c-line);
+  h2 {
+    margin: 0 0 6px 0;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
   }
-  .radio-group label { margin: 0; font-weight: 500; display: flex; align-items: center; gap: 6px; cursor: pointer; }
 
-  .checks {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 8px; background: #fff; padding: 12px; border-radius: 8px; border: 2px solid var(--c-line);
+  .lead {
+    margin: 0 0 24px 0;
+    font-size: 14px;
+    color: var(--subtext);
+    line-height: 1.5;
   }
-  .checks label { margin: 0; font-weight: 400; display: flex; align-items: center; gap: 6px; cursor: pointer; }
 
-  .seg-tabs { display: flex; background: #e2e8f0; padding: 4px; border-radius: 10px; margin-bottom: 20px; gap: 4px; }
-  .seg-btn {
-    flex: 1; padding: 9px; border: none; background: transparent; color: var(--c-muted);
-    font-size: 13px; font-weight: 600; border-radius: 8px; cursor: pointer; margin: 0; transition: 0.2s;
+  .group {
+    margin-bottom: 18px;
   }
-  .seg-btn.active { background: #fff; color: var(--c-ink); box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+
+  .cols-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  input[type="text"],
+  input[type="password"],
+  input[type="number"] {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 14px;
+    background: #f8fafc;
+    color: var(--text);
+    transition: border-color 0.2s, background-color 0.2s;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: var(--purple);
+    background: #ffffff;
+  }
+
+  .meter-track {
+    height: 6px;
+    width: 100%;
+    background: #e2e8f0;
+    border-radius: 99px;
+    margin-top: 8px;
+    overflow: hidden;
+  }
+
+  .meter-bar {
+    height: 100%;
+    width: 0%;
+    transition: width 0.25s ease, background-color 0.25s ease;
+  }
+
+  .meter-label {
+    font-size: 12px;
+    margin-top: 5px;
+    font-weight: 600;
+  }
+
+  .choice-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .choice-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: #f8fafc;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    margin: 0;
+  }
+
+  .allergy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    background: #f8fafc;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+  }
+
+  .allergy-grid label {
+    margin: 0;
+    font-weight: 500;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+
+  .tabs {
+    display: flex;
+    background: #f1f5f9;
+    padding: 4px;
+    border-radius: 12px;
+    margin-bottom: 22px;
+    gap: 4px;
+  }
+
+  .tab {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    color: var(--subtext);
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .tab.active {
+    background: #ffffff;
+    color: var(--text);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
 
   .btn {
-    width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 14px;
-    font-weight: 600; color: #fff; cursor: pointer; margin-top: 12px; transition: 0.2s;
+    width: 100%;
+    padding: 13px 16px;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: opacity 0.2s, transform 0.1s;
   }
-  .btn:hover { opacity: 0.9; }
 
-  .btn-violet { background: var(--c-violet); }
-  .btn-sky { background: var(--c-sky); }
-  .btn-mint { background: var(--c-mint); }
-  .btn-rose { background: var(--c-rose); }
-  .btn-orange { background: var(--c-orange); }
-  .btn-ghost { background: #e2e8f0; color: var(--c-ink); }
+  .btn:hover { opacity: 0.92; }
+  .btn:active { transform: scale(0.99); }
 
-  .view { display: none; }
-  .view.active { display: block; }
+  .bg-purple { background-color: var(--purple); }
+  .bg-blue { background-color: var(--blue); }
+  .bg-green { background-color: var(--green); }
+  .bg-pink { background-color: var(--pink); }
+  .bg-muted { background-color: #e2e8f0; color: var(--text); }
 
-  table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 14px 0; border-radius: 8px; overflow: hidden; border: 2px solid var(--c-line); }
-  th { background: #f1f5f9; color: var(--c-ink); font-weight: 600; padding: 10px 8px; text-align: center; border-bottom: 2px solid var(--c-line); }
-  td { padding: 10px 8px; text-align: center; border-bottom: 1px solid var(--c-line); }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .table-box {
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  th {
+    background: #f8fafc;
+    color: var(--subtext);
+    font-weight: 600;
+    padding: 12px 10px;
+    text-align: center;
+    border-bottom: 1.5px solid var(--border);
+  }
+
+  td {
+    padding: 12px 10px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+  }
+
   tr:last-child td { border-bottom: none; }
 
-  .stat-banner { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-  .stat-box { padding: 16px; border-radius: 10px; color: #fff; }
-  .stat-box small { font-size: 11px; opacity: 0.9; display: block; margin-bottom: 4px; }
-  .stat-box strong { font-size: 20px; font-weight: 700; display: block; }
-  .stat-box span { font-size: 11px; }
-
-  .bento-frame { background: #fff1f2; border: 2px solid #fda4af; padding: 14px; border-radius: 12px; margin: 16px 0; }
-  .bento-top { display: grid; grid-template-columns: 1.5fr 1fr; gap: 10px; }
-  .bento-right { display: grid; grid-template-rows: 1fr 1fr; gap: 10px; }
-  .bento-slot { background: #fff; padding: 12px; border-radius: 8px; position: relative; border: 2px solid var(--c-line); }
-
-  .slot-tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-bottom: 6px; }
-  .tag-rose { background: #ffe4e6; color: var(--c-rose); }
-  .tag-violet { background: #ede9fe; color: var(--c-violet); }
-  .tag-mint { background: #d1fae5; color: var(--c-mint); }
-  .tag-sky { background: #e0f2fe; color: var(--c-sky); }
-
-  .slot-title { font-size: 13px; font-weight: 600; margin: 0 0 4px 0; padding-right: 28px; }
-  .slot-meta { font-size: 11px; color: var(--c-muted); margin: 0; }
-
-  .btn-spin {
-    position: absolute; bottom: 8px; right: 8px; width: 26px; height: 26px;
-    border-radius: 6px; border: 2px solid var(--c-line); background: #f8fafc;
-    cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center;
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 22px;
   }
 
-  .chart-wrap { background: #fff; border: 2px solid var(--c-line); border-radius: 10px; padding: 16px; margin-bottom: 18px; height: 280px; position: relative; }
-  .monthly-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
-  .m-card { background: #f8fafc; border: 2px solid var(--c-line); border-radius: 8px; padding: 10px; text-align: center; }
-  .m-card small { font-size: 11px; color: var(--c-muted); display: block; }
-  .m-card strong { font-size: 16px; color: var(--c-violet); }
+  .kpi {
+    padding: 18px;
+    border-radius: 14px;
+    color: #ffffff;
+  }
 
-  .me-row { background: #ede9fe; font-weight: 600; }
-  .tip-list { margin: 8px 0 0 0; padding-left: 18px; font-size: 13px; color: var(--c-muted); line-height: 1.5; }
+  .kpi small { font-size: 12px; opacity: 0.9; display: block; margin-bottom: 4px; }
+  .kpi strong { font-size: 24px; font-weight: 700; display: block; line-height: 1.2; }
+  .kpi span { font-size: 12px; opacity: 0.95; }
+
+  .bento-board {
+    background: #fdf2f8;
+    border: 1.5px solid #fbcfe8;
+    padding: 16px;
+    border-radius: 16px;
+    margin: 14px 0 20px 0;
+  }
+
+  .bento-upper {
+    display: grid;
+    grid-template-columns: 1.45fr 1fr;
+    gap: 12px;
+  }
+
+  .bento-stack {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .card-dish {
+    background: #ffffff;
+    padding: 14px;
+    border-radius: 12px;
+    position: relative;
+    border: 1.5px solid var(--border);
+  }
+
+  .pill {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+  }
+
+  .p-pink { background: #fce7f3; color: var(--pink); }
+  .p-purple { background: #ede9fe; color: var(--purple); }
+  .p-green { background: #d1fae5; color: var(--green); }
+  .p-blue { background: #e0f2fe; color: var(--blue); }
+
+  .dish-name { font-size: 14px; font-weight: 600; margin: 0 0 4px 0; padding-right: 30px; line-height: 1.4; }
+  .dish-gram { font-size: 12px; color: var(--subtext); margin: 0; }
+
+  .btn-reroll {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: #f8fafc;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .note-panel {
+    background: #f8fafc;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  .note-panel ul {
+    margin: 8px 0 0 0;
+    padding-left: 18px;
+    font-size: 13px;
+    color: var(--subtext);
+    line-height: 1.6;
+  }
+
+  .chart-panel {
+    background: #ffffff;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 20px;
+    height: 290px;
+    position: relative;
+  }
+
+  .month-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .m-item {
+    background: #f8fafc;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .m-item small { font-size: 12px; color: var(--subtext); display: block; margin-bottom: 2px; }
+  .m-item strong { font-size: 18px; color: var(--purple); }
+
+  .highlight-me { background-color: #f5f3ff; font-weight: 600; }
 </style>
 </head>
 <body>
 
-<div class="app">
-  <div class="topbar">
-    <div class="brand">BentoBalance</div>
-    <div id="userPill" class="user-pill" style="display:none;">
+<div class="shell">
+  <div class="header">
+    <div class="logo">
+      <span class="logo-dot"></span>
+      <span>BentoBalance</span>
+    </div>
+    <div id="userChip" class="user-chip" style="display:none;">
       <span id="navUser">User</span>
-      <button class="btn-out" onclick="doLogout()">ออก</button>
+      <button class="btn-exit" onclick="doLogout()">ออก</button>
     </div>
   </div>
 
-  <!-- Login/Register View -->
-  <div id="vAuth" class="view active">
-    <h2>เข้าสู่ระบบ / สมัครสมาชิก</h2>
-    <p class="sub">ชื่อผู้ใช้ต้องมีความยาว 5-30 ตัวอักษร และรหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร</p>
+  <div id="vAuth" class="page active">
+    <h2>เข้าสู่ระบบ</h2>
+    <p class="lead">บันทึกค่าดัชนีมวลกาย ติดตามกราฟพัฒนาการ และจัดเซ็ตอาหารรายวัน</p>
 
-    <div class="seg-tabs">
-      <button type="button" class="seg-btn active" id="tLogin" onclick="setAuthMode('login')">เข้าสู่ระบบ</button>
-      <button type="button" class="seg-btn" id="tReg" onclick="setAuthMode('register')">สร้างบัญชีใหม่</button>
+    <div class="tabs">
+      <button type="button" class="tab active" id="tLogin" onclick="setAuthMode('login')">เข้าสู่ระบบ</button>
+      <button type="button" class="tab" id="tReg" onclick="setAuthMode('register')">สมัครสมาชิกใหม่</button>
     </div>
 
-    <div class="field">
+    <div class="group">
       <label>ชื่อผู้ใช้งาน (5 - 30 ตัวอักษร)</label>
-      <input type="text" id="inUser" placeholder="ระบุชื่อผู้ใช้" oninput="validateUserLen()">
-      <small id="userHint" style="font-size:11px; color:var(--c-muted);"></small>
+      <input type="text" id="inUser" placeholder="ระบุชื่อผู้ใช้งาน" oninput="validateUserLen()">
+      <div id="userHint" class="meter-label" style="color:var(--subtext);"></div>
     </div>
-    <div class="field">
+
+    <div class="group">
       <label>รหัสผ่าน (อย่างน้อย 8 ตัวอักษร)</label>
       <input type="password" id="inPass" placeholder="ระบุรหัสผ่าน" oninput="checkPasswordStrength(this.value)">
       <div id="pwStrengthBox" style="display:none;">
-        <div class="pw-strength-bar"><div id="pwFill" class="pw-fill"></div></div>
-        <div id="pwText" class="pw-text">ระดับความปลอดภัย</div>
+        <div class="meter-track"><div id="pwFill" class="meter-bar"></div></div>
+        <div id="pwText" class="meter-label"></div>
       </div>
     </div>
 
-    <button class="btn btn-violet" id="btnAuth" onclick="submitAuth()">เข้าสู่ระบบ</button>
+    <button class="btn bg-purple" id="btnAuth" onclick="submitAuth()">เข้าสู่ระบบ</button>
   </div>
 
-  <!-- Home View -->
-  <div id="vHome" class="view">
+  <div id="vHome" class="page">
     <h2>เกณฑ์มาตรฐาน BMI</h2>
-    <p class="sub">ตารางอ้างอิงสัดส่วนร่างกายแยกตามสรีระเพศชายและหญิง</p>
+    <p class="lead">ตารางประเมินความสมดุลของร่างกายแยกตามสรีระเพศชายและหญิง</p>
 
-    <table>
-      <thead>
-        <tr>
-          <th>เกณฑ์</th>
-          <th>ชาย</th>
-          <th>หญิง</th>
-          <th>คำแนะนำ</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style="color:#ca8a04; font-weight:600;">น้ำหนักน้อย</td>
-          <td>&lt; 20.0</td>
-          <td>&lt; 18.5</td>
-          <td>เพิ่มโปรตีนและพลังงาน</td>
-        </tr>
-        <tr>
-          <td style="color:var(--c-mint); font-weight:600;">สมส่วน</td>
-          <td>20.0 - 24.9</td>
-          <td>18.5 - 23.9</td>
-          <td>รักษาสมดุลต่อเนื่อง</td>
-        </tr>
-        <tr>
-          <td style="color:var(--c-orange); font-weight:600;">น้ำหนักเกิน</td>
-          <td>25.0 - 29.9</td>
-          <td>24.0 - 28.9</td>
-          <td>คุมคาร์บและน้ำตาล</td>
-        </tr>
-        <tr>
-          <td style="color:var(--c-rose); font-weight:600;">โรคอ้วน</td>
-          <td>&ge; 30.0</td>
-          <td>&ge; 29.0</td>
-          <td>ปรับโภชนาการเคร่งครัด</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-box">
+      <table>
+        <thead>
+          <tr>
+            <th>เกณฑ์</th>
+            <th>ชาย</th>
+            <th>หญิง</th>
+            <th>คำแนะนำ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="color:var(--amber); font-weight:600;">น้ำหนักน้อย</td>
+            <td>&lt; 20.0</td>
+            <td>&lt; 18.5</td>
+            <td>เพิ่มโปรตีนและพลังงาน</td>
+          </tr>
+          <tr>
+            <td style="color:var(--green); font-weight:600;">สมส่วน</td>
+            <td>20.0 - 24.9</td>
+            <td>18.5 - 23.9</td>
+            <td>รักษาสมดุลต่อเนื่อง</td>
+          </tr>
+          <tr>
+            <td style="color:var(--pink); font-weight:600;">น้ำหนักเกิน</td>
+            <td>25.0 - 29.9</td>
+            <td>24.0 - 28.9</td>
+            <td>คุมคาร์บและน้ำตาล</td>
+          </tr>
+          <tr>
+            <td style="color:#be123c; font-weight:600;">โรคอ้วน</td>
+            <td>&ge; 30.0</td>
+            <td>&ge; 29.0</td>
+            <td>ปรับโภชนาการเคร่งครัด</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-    <button class="btn btn-violet" onclick="go('vForm')">คำนวณ BMI และจัดกล่องข้าว Bento</button>
-    <button class="btn btn-sky" onclick="openStats()">ดูกราฟสถิติ BMI</button>
-    <button class="btn btn-mint" onclick="openRank()">อันดับสุขภาพ (Leaderboard)</button>
+    <button class="btn bg-purple" onclick="go('vForm')">คำนวณ BMI และจัดกล่องข้าว Bento</button>
+    <button class="btn bg-blue" onclick="openStats()">ดูกราฟสถิติ BMI</button>
+    <button class="btn bg-green" onclick="openRank()">อันดับสุขภาพ (Leaderboard)</button>
   </div>
 
-  <!-- Form View -->
-  <div id="vForm" class="view">
+  <div id="vForm" class="page">
     <h2>ข้อมูลร่างกาย</h2>
-    <p class="sub">กรอกข้อมูลปัจจุบันเพื่อบันทึกสถิติและคำนวณปริมาณอาหารแต่ละมื้อ</p>
+    <p class="lead">ระบุสัดส่วนปัจจุบันเพื่อบันทึกสถิติและคำนวณปริมาณอาหารแต่ละมื้อ</p>
 
-    <div class="field">
+    <div class="group">
       <label>เพศ</label>
-      <div class="radio-group">
-        <label><input type="radio" name="gender" value="ชาย" checked> ชาย</label>
-        <label><input type="radio" name="gender" value="หญิง"> หญิง</label>
+      <div class="choice-row">
+        <label class="choice-item"><input type="radio" name="gender" value="ชาย" checked> ชาย</label>
+        <label class="choice-item"><input type="radio" name="gender" value="หญิง"> หญิง</label>
       </div>
     </div>
 
-    <div class="row-2">
-      <div class="field">
+    <div class="cols-2">
+      <div class="group">
         <label>น้ำหนัก (กก.)</label>
         <input type="number" id="inWeight" value="60" step="0.1">
       </div>
-      <div class="field">
+      <div class="group">
         <label>ส่วนสูง (ซม.)</label>
         <input type="number" id="inHeight" value="165" step="0.1">
       </div>
     </div>
 
-    <div class="field">
+    <div class="group">
       <label>ข้อจำกัดด้านการแพ้อาหาร</label>
-      <div class="checks">
+      <div class="allergy-grid">
         <label><input type="checkbox" class="alg" value="seafood"> อาหารทะเล</label>
         <label><input type="checkbox" class="alg" value="nut"> ถั่วทุกชนิด</label>
         <label><input type="checkbox" class="alg" value="egg"> ไข่</label>
@@ -267,152 +540,155 @@
       </div>
     </div>
 
-    <button class="btn btn-violet" onclick="runCalc()">บันทึกและวิเคราะห์ผล</button>
-    <button class="btn btn-ghost" onclick="go('vHome')">ย้อนกลับ</button>
+    <button class="btn bg-purple" onclick="runCalc()">บันทึกและวิเคราะห์ผล</button>
+    <button class="btn bg-muted" onclick="go('vHome')">ย้อนกลับ</button>
   </div>
 
-  <!-- Result View -->
-  <div id="vResult" class="view">
+  <div id="vResult" class="page">
     <h2>ผลวิเคราะห์และจัดเซ็ตอาหาร</h2>
-    <p class="sub">ระบบบันทึกค่า BMI ล่าสุดลงในประวัติเรียบร้อยแล้ว</p>
+    <p class="lead">ระบบบันทึกค่า BMI ล่าสุดลงในประวัติเรียบร้อยแล้ว</p>
 
-    <div class="stat-banner">
-      <div class="stat-box" id="boxBmi">
+    <div class="kpi-grid">
+      <div class="kpi" id="boxBmi">
         <small>ดัชนีมวลกาย (BMI)</small>
         <strong id="valBmi">0.00</strong>
         <span id="txtBmi">-</span>
       </div>
-      <div class="stat-box" style="background: var(--c-sky);">
-        <small>พลังงานที่ควรได้รับ/วัน</small>
+      <div class="kpi bg-blue">
+        <small>พลังงานที่ควรได้รับต่อวัน</small>
         <strong id="valCal">0 kcal</strong>
         <span>แบ่งสัดส่วน 3 มื้อหลัก</span>
       </div>
     </div>
 
     <label>ปริมาณอาหารที่แนะนำในแต่ละมื้อ</label>
-    <table>
-      <thead>
-        <tr>
-          <th>มื้ออาหาร</th>
-          <th>พลังงาน</th>
-          <th>คาร์บ</th>
-          <th>โปรตีน</th>
-          <th>ผัก</th>
-        </tr>
-      </thead>
-      <tbody id="tbMeals"></tbody>
-    </table>
+    <div class="table-box">
+      <table>
+        <thead>
+          <tr>
+            <th>มื้ออาหาร</th>
+            <th>พลังงาน</th>
+            <th>คาร์บ</th>
+            <th>โปรตีน</th>
+            <th>ผัก</th>
+          </tr>
+        </thead>
+        <tbody id="tbMeals"></tbody>
+      </table>
+    </div>
 
-    <label style="margin-top:18px;">ตัวอย่างการจัดกล่องข้าว Bento (1 มื้อหลัก)</label>
-    <div class="bento-frame">
-      <div class="bento-top">
-        <div class="bento-slot">
-          <span class="slot-tag tag-rose">จานหลัก</span>
-          <p class="slot-title" id="fMain"></p>
-          <p class="slot-meta" id="wMain"></p>
-          <button class="btn-spin" onclick="spinSlot('main')">↻</button>
+    <label>ตัวอย่างการจัดกล่องข้าว Bento (1 มื้อหลัก)</label>
+    <div class="bento-board">
+      <div class="bento-upper">
+        <div class="card-dish">
+          <span class="pill p-pink">จานหลัก</span>
+          <p class="dish-name" id="fMain"></p>
+          <p class="dish-gram" id="wMain"></p>
+          <button class="btn-reroll" onclick="spinSlot('main')">↻</button>
         </div>
-        <div class="bento-right">
-          <div class="bento-slot">
-            <span class="slot-tag tag-violet">เครื่องเคียง</span>
-            <p class="slot-title" id="fSide"></p>
-            <p class="slot-meta" id="wSide"></p>
-            <button class="btn-spin" onclick="spinSlot('side')">↻</button>
+        <div class="bento-stack">
+          <div class="card-dish">
+            <span class="pill p-purple">เครื่องเคียง</span>
+            <p class="dish-name" id="fSide"></p>
+            <p class="dish-gram" id="wSide"></p>
+            <button class="btn-reroll" onclick="spinSlot('side')">↻</button>
           </div>
-          <div class="bento-slot">
-            <span class="slot-tag tag-mint">ผักและไฟเบอร์</span>
-            <p class="slot-title" id="fVeg"></p>
-            <p class="slot-meta" id="wVeg"></p>
-            <button class="btn-spin" onclick="spinSlot('veg')">↻</button>
+          <div class="card-dish">
+            <span class="pill p-green">ผักและไฟเบอร์</span>
+            <p class="dish-name" id="fVeg"></p>
+            <p class="dish-gram" id="wVeg"></p>
+            <button class="btn-reroll" onclick="spinSlot('veg')">↻</button>
           </div>
         </div>
       </div>
-      <div class="bento-slot" style="margin-top:10px;">
-        <span class="slot-tag tag-sky">ผลไม้ / ของว่าง</span>
-        <p class="slot-title" id="fSnack"></p>
-        <p class="slot-meta" id="wSnack"></p>
-        <button class="btn-spin" onclick="spinSlot('snack')">↻</button>
+      <div class="card-dish" style="margin-top:12px;">
+        <span class="pill p-blue">ผลไม้ / ของว่าง</span>
+        <p class="dish-name" id="fSnack"></p>
+        <p class="dish-gram" id="wSnack"></p>
+        <button class="btn-reroll" onclick="spinSlot('snack')">↻</button>
       </div>
     </div>
 
-    <div style="background:#fff; padding:14px; border-radius:8px; border:2px solid var(--c-line); margin-bottom:14px;">
+    <div class="note-panel">
       <label style="margin:0;">แนวทางดูแลตัวเอง</label>
-      <ul class="tip-list" id="ulTips"></ul>
+      <ul id="ulTips"></ul>
     </div>
 
-    <div class="row-2">
-      <button class="btn btn-sky" style="margin-top:0;" onclick="spinAll()">สุ่มเมนูใหม่ทั้งหมด</button>
-      <button class="btn btn-mint" style="margin-top:0;" onclick="findMap()">ค้นหาร้านใกล้ฉัน</button>
+    <div class="cols-2">
+      <button class="btn bg-blue" style="margin-top:0;" onclick="spinAll()">สุ่มเมนูใหม่ทั้งหมด</button>
+      <button class="btn bg-green" style="margin-top:0;" onclick="findMap()">ค้นหาร้านใกล้ฉัน</button>
     </div>
-    <button class="btn btn-violet" onclick="openStats()">ดูกราฟสถิติ BMI</button>
-    <button class="btn btn-ghost" onclick="go('vHome')">กลับหน้าหลัก</button>
+    <button class="btn bg-purple" onclick="openStats()">ดูกราฟสถิติ BMI</button>
+    <button class="btn bg-muted" onclick="go('vHome')">กลับหน้าหลัก</button>
   </div>
 
-  <!-- Stats View -->
-  <div id="vStats" class="view">
+  <div id="vStats" class="page">
     <h2>สถิติแนวโน้ม BMI</h2>
-    <p class="sub">ติดตามความเปลี่ยนแปลงแบบรายวัน รายสัปดาห์ และค่าเฉลี่ยรายเดือน</p>
+    <p class="lead">ติดตามความเปลี่ยนแปลงแบบรายวัน รายสัปดาห์ และค่าเฉลี่ยรายเดือน</p>
 
-    <div class="seg-tabs">
-      <button type="button" class="seg-btn active" id="tabDay" onclick="switchChart('daily')">กราฟเส้นรายวัน</button>
-      <button type="button" class="seg-btn" id="tabWeek" onclick="switchChart('weekly')">กราฟแท่งรายสัปดาห์</button>
-      <button type="button" class="seg-btn" id="tabMonth" onclick="switchChart('monthly')">ค่าเฉลี่ยรายเดือน</button>
+    <div class="tabs">
+      <button type="button" class="tab active" id="tabDay" onclick="switchChart('daily')">กราฟเส้นรายวัน</button>
+      <button type="button" class="tab" id="tabWeek" onclick="switchChart('weekly')">กราฟแท่งรายสัปดาห์</button>
+      <button type="button" class="tab" id="tabMonth" onclick="switchChart('monthly')">ค่าเฉลี่ยรายเดือน</button>
     </div>
 
-    <div id="monthSummaryBox" class="monthly-summary" style="display:none;">
-      <div class="m-card">
+    <div id="monthSummaryBox" class="month-cards" style="display:none;">
+      <div class="m-item">
         <small>ค่าเฉลี่ยเดือนนี้</small>
         <strong id="mAvg">-</strong>
       </div>
-      <div class="m-card">
+      <div class="m-item">
         <small>ค่าต่ำสุด</small>
-        <strong id="mMin" style="color:var(--c-mint);">-</strong>
+        <strong id="mMin" style="color:var(--green);">-</strong>
       </div>
-      <div class="m-card">
+      <div class="m-item">
         <small>ค่าสูงสุด</small>
-        <strong id="mMax" style="color:var(--c-rose);">-</strong>
+        <strong id="mMax" style="color:var(--pink);">-</strong>
       </div>
     </div>
 
-    <div class="chart-wrap">
+    <div class="chart-panel">
       <canvas id="bmiChart"></canvas>
     </div>
 
     <label>ประวัติการบันทึกล่าสุด</label>
-    <table>
-      <thead>
-        <tr>
-          <th>วันที่</th>
-          <th>น้ำหนัก</th>
-          <th>ส่วนสูง</th>
-          <th>BMI</th>
-        </tr>
-      </thead>
-      <tbody id="tbHist"></tbody>
-    </table>
+    <div class="table-box">
+      <table>
+        <thead>
+          <tr>
+            <th>วันที่</th>
+            <th>น้ำหนัก</th>
+            <th>ส่วนสูง</th>
+            <th>BMI</th>
+          </tr>
+        </thead>
+        <tbody id="tbHist"></tbody>
+      </table>
+    </div>
 
-    <button class="btn btn-rose" onclick="wipeHistory()">ลบประวัติทั้งหมด</button>
-    <button class="btn btn-ghost" onclick="go('vHome')">กลับหน้าหลัก</button>
+    <button class="btn bg-pink" onclick="wipeHistory()">ลบประวัติทั้งหมด</button>
+    <button class="btn bg-muted" onclick="go('vHome')">กลับหน้าหลัก</button>
   </div>
 
-  <!-- Leaderboard View -->
-  <div id="vRank" class="view">
+  <div id="vRank" class="page">
     <h2>อันดับความสมส่วน</h2>
-    <p class="sub">จัดอันดับจากความใกล้เคียงเกณฑ์มาตรฐานสุขภาพของผู้ใช้งานในระบบ</p>
+    <p class="lead">จัดอันดับจากความใกล้เคียงเกณฑ์มาตรฐานสุขภาพของผู้ใช้งานในระบบ</p>
 
-    <table>
-      <thead>
-        <tr>
-          <th>อันดับ</th>
-          <th>ผู้ใช้งาน</th>
-          <th>BMI ล่าสุด</th>
-          <th>สถานะ</th>
-        </tr>
-      </thead>
-      <tbody id="tbRank"></tbody>
-    </table>
+    <div class="table-box">
+      <table>
+        <thead>
+          <tr>
+            <th>อันดับ</th>
+            <th>ผู้ใช้งาน</th>
+            <th>BMI ล่าสุด</th>
+            <th>สถานะ</th>
+          </tr>
+        </thead>
+        <tbody id="tbRank"></tbody>
+      </table>
+    </div>
 
-    <button class="btn btn-ghost" onclick="go('vHome')">กลับหน้าหลัก</button>
+    <button class="btn bg-muted" onclick="go('vHome')">กลับหน้าหลัก</button>
   </div>
 </div>
 
@@ -424,7 +700,6 @@ let currentMainMenu = '';
 let weightRules = {};
 let userAllergies = [];
 
-// เพิ่มฐานข้อมูลเมนูอาหารให้หลากหลายขึ้น
 const menuPool = {
   main: [
     { name: "ข้าวกล้อง + อกไก่ย่างพริกไทยดำ", tags: [] },
@@ -444,7 +719,7 @@ const menuPool = {
     { name: "เต้าหู้ขาวนึ่งซีอิ๊วญี่ปุ่น", tags: [] },
     { name: "ไข่ตุ๋นทรงเครื่องอกไก่สับ", tags: ["egg"] },
     { name: "เต้าหู้เหลืองผัดถั่วงอก", tags: [] },
-    { name: "ไข่ดาวน้ำ (Poached Egg)", tags: ["egg"] },
+    { name: "ไข่ดาวน้ำ", tags: ["egg"] },
     { name: "ถั่วแระญี่ปุ่นต้มเกลือ", tags: ["nut"] },
     { name: "ลูกชิ้นอกไก่ลวกจิ้ม", tags: [] }
   ],
@@ -453,7 +728,7 @@ const menuPool = {
     { name: "หน่อไม้ฝรั่งผัดเห็ดออรินจิ", tags: [] },
     { name: "กะหล่ำปลีตุ๋นเห็ดหอม", tags: [] },
     { name: "ผักกวางตุ้งฮ่องเต้นึ่งกระเทียม", tags: [] },
-    { name: "ฟักทองญี่ปุ่นนึ่งเนื้อหนึบ", tags: [] },
+    { name: "ฟักทองญี่ปุ่นนึ่ง", tags: [] },
     { name: "สลัดผักรวมน้ำใส", tags: [] }
   ],
   snack: [
@@ -463,7 +738,7 @@ const menuPool = {
     { name: "โยเกิร์ตธรรมชาติ 0%", tags: ["milk"] },
     { name: "กล้วยหอมทอง 1 ลูก", tags: [] },
     { name: "ส้มสายน้ำผึ้ง 2 ลูก", tags: [] },
-    { name: "เมล็ดอัลมอนด์อบ (1 กำมือ)", tags: ["nut"] }
+    { name: "เมล็ดอัลมอนด์อบ 1 กำมือ", tags: ["nut"] }
   ]
 };
 
@@ -472,13 +747,13 @@ window.addEventListener('DOMContentLoaded', () => {
   if (saved) {
     activeUser = saved;
     document.getElementById('navUser').innerText = activeUser;
-    document.getElementById('userPill').style.display = 'flex';
+    document.getElementById('userChip').style.display = 'flex';
     go('vHome');
   }
 });
 
 function go(id) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(v => v.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0, 0);
 }
@@ -487,7 +762,9 @@ function setAuthMode(mode) {
   authMode = mode;
   document.getElementById('tLogin').classList.toggle('active', mode === 'login');
   document.getElementById('tReg').classList.toggle('active', mode === 'register');
-  document.getElementById('btnAuth').innerText = mode === 'login' ? 'เข้าสู่ระบบ' : 'สร้างบัญชีใหม่';
+  document.getElementById('btnAuth').innerText = mode === 'login' ? 'เข้าสู่ระบบ' : 'สมัครสมาชิกใหม่';
+  validateUserLen();
+  checkPasswordStrength(document.getElementById('inPass').value);
 }
 
 function validateUserLen() {
@@ -495,11 +772,11 @@ function validateUserLen() {
   const hint = document.getElementById('userHint');
   if (authMode === 'register' && u.length > 0) {
     if (u.length < 5 || u.length > 30) {
-      hint.style.color = 'var(--c-rose)';
-      hint.innerText = `ความยาวปัจจุบัน ${u.length} ตัวอักษร (ต้องอยู่ระหว่าง 5 - 30 ตัว)`;
+      hint.style.color = 'var(--pink)';
+      hint.innerText = `ความยาว ${u.length} ตัวอักษร (ต้องอยู่ระหว่าง 5 - 30 ตัว)`;
     } else {
-      hint.style.color = 'var(--c-mint)';
-      hint.innerText = `ความยาวถูกต้อง (${u.length} ตัวอักษร)`;
+      hint.style.color = 'var(--green)';
+      hint.innerText = `ความยาวใช้ได้ (${u.length} ตัวอักษร)`;
     }
   } else {
     hint.innerText = '';
@@ -525,23 +802,23 @@ function checkPasswordStrength(pw) {
 
   if (pw.length < 8) {
     fill.style.width = '25%';
-    fill.style.background = 'var(--c-rose)';
-    text.style.color = 'var(--c-rose)';
-    text.innerText = 'รหัสผ่านสั้นเกินไป (ต้องมากกว่า 8 ตัวอักษร)';
+    fill.style.backgroundColor = 'var(--pink)';
+    text.style.color = 'var(--pink)';
+    text.innerText = 'ระดับ: สั้นเกินไป (ต้องมากกว่า 8 ตัวอักษร)';
   } else if (score <= 2) {
     fill.style.width = '50%';
-    fill.style.background = 'var(--c-orange)';
-    text.style.color = 'var(--c-orange)';
-    text.innerText = 'ระดับ: ปานกลาง (ควรเพิ่มตัวเลขหรืออักขระพิเศษ)';
+    fill.style.backgroundColor = 'var(--amber)';
+    text.style.color = 'var(--amber)';
+    text.innerText = 'ระดับ: ปานกลาง (แนะนำให้เพิ่มตัวเลขหรืออักขระพิเศษ)';
   } else if (score === 3) {
     fill.style.width = '75%';
-    fill.style.background = 'var(--c-sky)';
-    text.style.color = 'var(--c-sky)';
+    fill.style.backgroundColor = 'var(--blue)';
+    text.style.color = 'var(--blue)';
     text.innerText = 'ระดับ: ดีมาก';
   } else {
     fill.style.width = '100%';
-    fill.style.background = 'var(--c-mint)';
-    text.style.color = 'var(--c-mint)';
+    fill.style.backgroundColor = 'var(--green)';
+    text.style.color = 'var(--green)';
     text.innerText = 'ระดับ: แข็งแกร่งปลอดภัยสูงสุด';
   }
 }
@@ -579,17 +856,18 @@ function startSession(u) {
   activeUser = u;
   localStorage.setItem('bb_session', u);
   document.getElementById('navUser').innerText = u;
-  document.getElementById('userPill').style.display = 'flex';
+  document.getElementById('userChip').style.display = 'flex';
   document.getElementById('inUser').value = '';
   document.getElementById('inPass').value = '';
   document.getElementById('pwStrengthBox').style.display = 'none';
+  document.getElementById('userHint').innerText = '';
   go('vHome');
 }
 
 function doLogout() {
   activeUser = null;
   localStorage.removeItem('bb_session');
-  document.getElementById('userPill').style.display = 'none';
+  document.getElementById('userChip').style.display = 'none';
   go('vAuth');
 }
 
@@ -607,44 +885,44 @@ function runCalc() {
   if (gender === 'ชาย') {
     tdee = w * 24 * 1.2;
     if (bmi < 20.0) {
-      status = 'น้ำหนักน้อยกว่าเกณฑ์'; bg = 'var(--c-orange)';
+      status = 'น้ำหนักน้อยกว่าเกณฑ์'; bg = 'var(--amber)';
       weightRules = { main: 'คาร์บ 180g + เนื้อ 150g', side: 'โปรตีน 90g', veg: 'ผัก 120g', snack: '90g' };
       tips = ['เพิ่มปริมาณโปรตีนในทุกมื้ออาหาร', 'ฝึกเวทเทรนนิ่งเพื่อสร้างมวลกล้ามเนื้อ'];
     } else if (bmi < 25.0) {
-      status = 'สมส่วน สุขภาพดี'; bg = 'var(--c-mint)';
+      status = 'สมส่วน สุขภาพดี'; bg = 'var(--green)';
       weightRules = { main: 'คาร์บ 150g + เนื้อ 130g', side: 'โปรตีน 70g', veg: 'ผัก 120g', snack: '80g' };
       tips = ['รักษาสัดส่วนสารอาหารให้คงที่', 'ออกกำลังกายแบบคาร์ดิโอ 150 นาทีต่อสัปดาห์'];
     } else if (bmi < 30.0) {
-      status = 'น้ำหนักเกินเกณฑ์'; bg = 'var(--c-orange)';
+      status = 'น้ำหนักเกินเกณฑ์'; bg = 'var(--pink)';
       weightRules = { main: 'คาร์บ 100g + เนื้อ 130g', side: 'โปรตีน 60g', veg: 'ผัก 160g', snack: '50g' };
       tips = ['ลดอาหารทอดและเครื่องดื่มที่มีน้ำตาล', 'เพิ่มสัดส่วนผักใบเขียวในมื้อเย็น'];
     } else {
-      status = 'ภาวะโรคอ้วน'; bg = 'var(--c-rose)';
+      status = 'ภาวะโรคอ้วน'; bg = '#be123c';
       weightRules = { main: 'คาร์บ 70g + เนื้อ 140g', side: 'โปรตีน 60g', veg: 'ผัก 200g', snack: '50g' };
       tips = ['หลีกเลี่ยงแป้งขัดขาวและน้ำหวานเด็ดขาด', 'เริ่มออกกำลังกายด้วยการเดินเร็วหรือว่ายน้ำ'];
     }
   } else {
     tdee = w * 22 * 1.2;
     if (bmi < 18.5) {
-      status = 'น้ำหนักน้อยกว่าเกณฑ์'; bg = 'var(--c-orange)';
+      status = 'น้ำหนักน้อยกว่าเกณฑ์'; bg = 'var(--amber)';
       weightRules = { main: 'คาร์บ 140g + เนื้อ 110g', side: 'โปรตีน 70g', veg: 'ผัก 100g', snack: '70g' };
       tips = ['เน้นอาหารที่ให้พลังงานและธาตุเหล็กสูง', 'เสริมไขมันดีจากถั่วและอะโวคาโด'];
     } else if (bmi < 24.0) {
-      status = 'สมส่วน สุขภาพดี'; bg = 'var(--c-mint)';
+      status = 'สมส่วน สุขภาพดี'; bg = 'var(--green)';
       weightRules = { main: 'คาร์บ 120g + เนื้อ 100g', side: 'โปรตีน 50g', veg: 'ผัก 100g', snack: '60g' };
       tips = ['ควบคุมปริมาณน้ำตาลและโซเดียม', 'ออกกำลังกายแบบเวทบอดี้เวทเพื่อความกระชับ'];
     } else if (bmi < 29.0) {
-      status = 'น้ำหนักเกินเกณฑ์'; bg = 'var(--c-orange)';
+      status = 'น้ำหนักเกินเกณฑ์'; bg = 'var(--pink)';
       weightRules = { main: 'คาร์บ 80g + เนื้อ 100g', side: 'โปรตีน 40g', veg: 'ผัก 140g', snack: '40g' };
       tips = ['งดเครื่องดื่มชานมและเบเกอรี่', 'เน้นการออกกำลังกายแบบแอโรบิกต่อเนื่อง'];
     } else {
-      status = 'ภาวะโรคอ้วน'; bg = 'var(--c-rose)';
+      status = 'ภาวะโรคอ้วน'; bg = '#be123c';
       weightRules = { main: 'คาร์บ 50g + เนื้อ 110g', side: 'โปรตีน 40g', veg: 'ผัก 180g', snack: '30g' };
       tips = ['ปรับลดปริมาณคาร์โบไฮเดรตลงครึ่งหนึ่ง', 'เดินออกกำลังกายสม่ำเสมอทุกวัน'];
     }
   }
 
-  document.getElementById('boxBmi').style.background = bg;
+  document.getElementById('boxBmi').style.backgroundColor = bg;
   document.getElementById('valBmi').innerText = bmi.toFixed(2);
   document.getElementById('txtBmi').innerText = `${status} (${gender})`;
 
@@ -663,11 +941,11 @@ function runCalc() {
     const p = Math.round((kcal * 0.30) / 4);
     const v = Math.round(s.r * (gender === 'ชาย' ? 400 : 320));
     return `<tr>
-      <td style="text-align:left; font-weight:500;">${s.label}</td>
-      <td style="color:var(--c-violet); font-weight:600;">${kcal} kcal</td>
+      <td style="text-align:left; font-weight:600;">${s.label}</td>
+      <td style="color:var(--purple); font-weight:600;">${kcal} kcal</td>
       <td>${c}g</td>
       <td>${p}g</td>
-      <td style="color:var(--c-mint);">${v}g</td>
+      <td style="color:var(--green); font-weight:600;">${v}g</td>
     </tr>`;
   }).join('');
 
@@ -741,7 +1019,7 @@ function renderHistoryTable() {
   const tb = document.getElementById('tbHist');
 
   if (!logs.length) {
-    tb.innerHTML = '<tr><td colspan="4" style="color:var(--c-muted);">ยังไม่มีประวัติการบันทึก</td></tr>';
+    tb.innerHTML = '<tr><td colspan="4" style="color:var(--subtext);">ยังไม่มีประวัติการบันทึก</td></tr>';
     return;
   }
 
@@ -750,7 +1028,7 @@ function renderHistoryTable() {
       <td>${l.date}</td>
       <td>${l.w} กก.</td>
       <td>${l.h} ซม.</td>
-      <td style="font-weight:600; color:var(--c-violet);">${l.bmi}</td>
+      <td style="font-weight:600; color:var(--purple);">${l.bmi}</td>
     </tr>
   `).join('');
 }
@@ -814,8 +1092,8 @@ function switchChart(mode) {
     });
     chartType = 'line';
     datasetLabel = 'ค่าเฉลี่ย BMI รายเดือน';
-    colorMain = '#e11d48';
-    bgFill = 'rgba(225, 29, 72, 0.1)';
+    colorMain = '#db2777';
+    bgFill = 'rgba(219, 39, 119, 0.1)';
 
     if (values.length > 0) {
       const currentMonthKey = labels[labels.length - 1];
@@ -847,11 +1125,11 @@ function switchChart(mode) {
         borderColor: colorMain,
         backgroundColor: bgFill,
         borderWidth: 2,
-        borderRadius: chartType === 'bar' ? 4 : 0,
+        borderRadius: chartType === 'bar' ? 6 : 0,
         fill: chartType === 'line',
-        tension: 0.2,
+        tension: 0.25,
         pointRadius: 4,
-        pointBackgroundColor: '#fff',
+        pointBackgroundColor: '#ffffff',
         pointBorderColor: colorMain,
         pointBorderWidth: 2
       }]
@@ -860,17 +1138,17 @@ function switchChart(mode) {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { labels: { font: { family: 'IBM Plex Sans Thai', size: 12 } } }
+        legend: { labels: { font: { family: 'Anuphan', size: 12 } } }
       },
       scales: {
         y: {
           min: yMin,
           max: yMax,
-          ticks: { stepSize: 0.2, font: { family: 'IBM Plex Sans Thai', size: 11 } },
+          ticks: { stepSize: 0.2, font: { family: 'Anuphan', size: 11 } },
           grid: { color: '#f1f5f9' }
         },
         x: {
-          ticks: { font: { family: 'IBM Plex Sans Thai', size: 11 } },
+          ticks: { font: { family: 'Anuphan', size: 11 } },
           grid: { display: false }
         }
       }
@@ -901,15 +1179,15 @@ function openRank() {
       const ideal = last.gender === 'ชาย' ? 22.5 : 21.2;
       const score = Math.max(0, 100 - Math.abs(last.bmi - ideal) * 8);
 
-      let st = 'สมส่วน', col = 'var(--c-mint)';
+      let st = 'สมส่วน', col = 'var(--green)';
       if (last.gender === 'ชาย') {
-        if (last.bmi < 20) { st = 'น้ำหนักน้อย'; col = '#ca8a04'; }
-        else if (last.bmi >= 25 && last.bmi < 30) { st = 'น้ำหนักเกิน'; col = 'var(--c-orange)'; }
-        else if (last.bmi >= 30) { st = 'โรคอ้วน'; col = 'var(--c-rose)'; }
+        if (last.bmi < 20) { st = 'น้ำหนักน้อย'; col = 'var(--amber)'; }
+        else if (last.bmi >= 25 && last.bmi < 30) { st = 'น้ำหนักเกิน'; col = 'var(--pink)'; }
+        else if (last.bmi >= 30) { st = 'โรคอ้วน'; col = '#be123c'; }
       } else {
-        if (last.bmi < 18.5) { st = 'น้ำหนักน้อย'; col = '#ca8a04'; }
-        else if (last.bmi >= 24 && last.bmi < 29) { st = 'น้ำหนักเกิน'; col = 'var(--c-orange)'; }
-        else if (last.bmi >= 29) { st = 'โรคอ้วน'; col = 'var(--c-rose)'; }
+        if (last.bmi < 18.5) { st = 'น้ำหนักน้อย'; col = 'var(--amber)'; }
+        else if (last.bmi >= 24 && last.bmi < 29) { st = 'น้ำหนักเกิน'; col = 'var(--pink)'; }
+        else if (last.bmi >= 29) { st = 'โรคอ้วน'; col = '#be123c'; }
       }
 
       list.push({ user: u, bmi: last.bmi, score: score, st: st, col: col });
@@ -920,10 +1198,10 @@ function openRank() {
   const tb = document.getElementById('tbRank');
 
   if (!list.length) {
-    tb.innerHTML = '<tr><td colspan="4" style="color:var(--c-muted);">ยังไม่มีข้อมูลผู้ใช้งานในระบบ</td></tr>';
+    tb.innerHTML = '<tr><td colspan="4" style="color:var(--subtext);">ยังไม่มีข้อมูลผู้ใช้งานในระบบ</td></tr>';
   } else {
     tb.innerHTML = list.map((item, i) => `
-      <tr class="${item.user === activeUser ? 'me-row' : ''}">
+      <tr class="${item.user === activeUser ? 'highlight-me' : ''}">
         <td>${i + 1}</td>
         <td>${item.user} ${item.user === activeUser ? '(คุณ)' : ''}</td>
         <td>${item.bmi}</td>
